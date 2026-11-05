@@ -12,5 +12,6 @@ export const METODO_LOGO_HOLD_MS = 4000;
 export const METODO_LOGO_FADE_MS = 700;
 
 export function metodoSceneAt(time: number) {
-  return Math.max(0, METODO_SCENES.findLastIndex((scene) => time >= scene.start));
+  const next = METODO_SCENES.findIndex((scene) => time < scene.start);
+  return next === -1 ? METODO_SCENES.length - 1 : Math.max(0, next - 1);
 }
