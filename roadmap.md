@@ -5,5 +5,5 @@
 - [x] Solicitar publicação em zordan-engenharia.lovable.app.
 
 # Organização e contato
-- [ ] Trocar Diário de obra e Além da obra de posição e atualizar a numeração.
-- [ ] Adicionar WhatsApp com símbolo no rodapé e conferir no computador e celular.
+- [x] Trocar Diário de obra e Além da obra de posição e atualizar a numeração.
+- [x] Adicionar WhatsApp com símbolo no rodapé e conferir no computador e celular.
