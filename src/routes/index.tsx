@@ -145,9 +145,9 @@ function Manifesto() {
               ["Solidez", "Bases sólidas — no concreto e nas relações."],
               ["Permanência", "Obras pensadas para gerações, não para estações."],
             ].map(([t, d], i) => (
-              <Reveal key={t} delay={i * 0.12} className="border-b border-border py-8 sm:border-b-0 sm:border-r sm:pr-8 sm:last:border-r-0 sm:[&:not(:first-child)]:pl-8">
+              <Reveal key={t} delay={i * 0.12} className="border-b border-border py-8 sm:border-b-0 min-w-0 sm:border-r sm:pr-5 sm:last:border-r-0 sm:[&:not(:first-child)]:pl-5 xl:pr-8 xl:[&:not(:first-child)]:pl-8">
                 <p className="label-mono mb-4 text-accent">0{i + 1}</p>
-                <h3 className="display mb-3 text-3xl text-primary">{t}</h3>
+                <h3 className="display mb-3 text-2xl text-primary [overflow-wrap:anywhere] lg:text-[1.65rem] xl:text-3xl">{t}</h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">{d}</p>
               </Reveal>
             ))}
