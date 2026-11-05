@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from "motion/react";
+import { AnimatePresence, motion, useScroll, useTransform, useMotionValue, useSpring } from "motion/react";
 import { useRef, useState, useEffect } from "react";
 import hero from "@/assets/hero-residencia.jpg";
 import detalhe from "@/assets/detalhe-fachada.jpg";
@@ -231,7 +231,7 @@ function ObraCard({ p, i, mobile = false, onOpen }: { p: Post; i: number; mobile
   );
 }
 
-function ObrasMobile() {
+function ObrasMobile({ onOpen }: { onOpen: (p: Post) => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const total = obras.length + 1;
@@ -271,6 +271,7 @@ function Obras() {
   const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [travel, setTravel] = useState(0);
+  const [open, setOpen] = useState<Post | null>(null);
   useEffect(() => {
     const viewport = viewportRef.current;
     const track = trackRef.current;
@@ -302,7 +303,8 @@ function Obras() {
       {/* Mobile: carrossel nativo, sem travar a rolagem */}
       <div className="grain py-20 md:hidden">
         {header}
-        <ObrasMobile />
+        <ObrasMobile onOpen={setOpen} />
+        <AnimatePresence>{open && <ReelModal key={open.url} p={open} onClose={() => setOpen(null)} />}</AnimatePresence>
       </div>
       {/* Desktop: rolagem vertical vira movimento horizontal (sem bloquear a página) */}
       <div ref={ref} className="hidden h-[300vh] md:block">
