@@ -217,7 +217,8 @@
 }
 @media (max-width: 767px) {
   .metodo-phrase { font-size: 2rem; }
-  .metodo-phrase-final { font-size: 2.25rem; }
+  .metodo-phrase-final { font-size: 1.375rem; }
+  .metodo-phrase-final > span:last-child { font-size: 1.9rem; margin-top: 0.4rem; }
   .metodo-logo > svg { width: 4rem; height: 4rem; }
   .metodo-logo > span > span:first-child { font-size: 2rem; }
   .metodo-logo > span > span:last-child { font-size: 0.65rem; }
