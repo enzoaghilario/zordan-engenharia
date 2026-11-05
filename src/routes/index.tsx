@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from "motion/react";
+import { AnimatePresence, motion, useScroll, useTransform, useMotionValue, useSpring } from "motion/react";
 import { useRef, useState, useEffect } from "react";
 import hero from "@/assets/hero-residencia.jpg";
 import detalhe from "@/assets/detalhe-fachada.jpg";
@@ -165,16 +165,46 @@ function Manifesto() {
   );
 }
 
-function ObraCard({ p, i, mobile = false }: { p: Post; i: number; mobile?: boolean }) {
+function reelEmbed(url: string) {
+  const id = url.match(/\/reel\/([^/?]+)/)?.[1];
+  return id ? `https://www.instagram.com/reel/${id}/embed/` : null;
+}
+
+function ReelModal({ p, onClose }: { p: Post; onClose: () => void }) {
+  const src = reelEmbed(p.url);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { window.removeEventListener("keydown", onKey); document.body.style.overflow = prev; };
+  }, [onClose]);
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      role="dialog" aria-modal="true" aria-label={p.title}
+      onClick={onClose}
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-forest-deep/95 p-4 backdrop-blur-sm">
+      <div onClick={(e) => e.stopPropagation()} className="relative flex h-[min(88svh,820px)] w-[min(92vw,420px)] flex-col">
+        <div className="mb-3 flex items-center justify-between gap-4 text-bone">
+          <p className="label-mono min-w-0 truncate text-accent">{p.tag} — {p.title}</p>
+          <button type="button" onClick={onClose} aria-label="Fechar vídeo" className="label-mono shrink-0 border border-bone/40 px-3 py-1.5 transition-colors hover:border-accent hover:text-accent">Fechar ✕</button>
+        </div>
+        {src && <iframe src={src} title={p.title} allow="autoplay; encrypted-media; picture-in-picture; clipboard-write" allowFullScreen className="min-h-0 w-full flex-1 border-0 bg-bone" />}
+      </div>
+    </motion.div>
+  );
+}
+
+function ObraCard({ p, i, mobile = false, onOpen }: { p: Post; i: number; mobile?: boolean; onOpen: (p: Post) => void }) {
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const rx = useSpring(useTransform(my, [-0.5, 0.5], [8, -8]), { stiffness: 150, damping: 18 });
   const ry = useSpring(useTransform(mx, [-0.5, 0.5], [-8, 8]), { stiffness: 150, damping: 18 });
   return (
-    <motion.a
-      href={p.url}
-      target="_blank"
-      rel="noreferrer"
+    <motion.button
+      type="button"
+      onClick={() => onOpen(p)}
+      aria-label={`Assistir: ${p.title}`}
       onMouseMove={(e) => {
         const r = e.currentTarget.getBoundingClientRect();
         mx.set((e.clientX - r.left) / r.width - 0.5);
@@ -182,12 +212,12 @@ function ObraCard({ p, i, mobile = false }: { p: Post; i: number; mobile?: boole
       }}
       onMouseLeave={() => { mx.set(0); my.set(0); }}
       style={{ rotateX: rx, rotateY: ry, transformPerspective: 1200 }}
-      className={mobile ? "group relative block" : `group relative block w-[min(36vw,40svh)] shrink-0 ${i % 2 ? "mt-10" : ""}`}
+      className={mobile ? "group relative block w-full cursor-pointer text-left" : `group relative block cursor-pointer text-left w-[min(36vw,40svh)] shrink-0 ${i % 2 ? "mt-10" : ""}`}
     >
       <div className={mobile ? "relative aspect-[4/5] overflow-hidden bg-forest" : "relative h-[32svh] overflow-hidden bg-forest"}>
         <img src={p.img} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-[1.6s] ease-out group-hover:scale-110" />
         <div className="absolute inset-0 bg-gradient-to-t from-forest-deep/90 via-transparent to-transparent" />
-        {p.video && <span className="label-mono absolute right-5 top-5 border border-bone/40 px-3 py-1.5 text-bone backdrop-blur-sm">▶ Reel</span>}
+        {p.video && <span className="label-mono absolute right-5 top-5 border border-bone/40 px-3 py-1.5 text-bone backdrop-blur-sm">▶ Assistir</span>}
         <span className="display absolute -bottom-6 left-4 text-[9rem] text-outline opacity-60">{String(i + 1).padStart(2, "0")}</span>
       </div>
       <div className="mt-6 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3 border-t border-forest-line pt-5">
@@ -197,11 +227,11 @@ function ObraCard({ p, i, mobile = false }: { p: Post; i: number; mobile?: boole
         </div>
         <span className="label-mono whitespace-nowrap text-bone/50">{p.date}</span>
       </div>
-    </motion.a>
+    </motion.button>
   );
 }
 
-function ObrasMobile() {
+function ObrasMobile({ onOpen }: { onOpen: (p: Post) => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const total = obras.length + 1;
@@ -219,7 +249,7 @@ function ObrasMobile() {
       >
         {obras.map((p, i) => (
           <div key={p.url} className="w-[82vw] shrink-0 snap-start">
-            <ObraCard p={p} i={i} mobile />
+            <ObraCard p={p} i={i} mobile onOpen={onOpen} />
           </div>
         ))}
         <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="flex w-[82vw] shrink-0 snap-start flex-col justify-center border-l border-forest-line pl-8">
@@ -241,6 +271,7 @@ function Obras() {
   const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [travel, setTravel] = useState(0);
+  const [open, setOpen] = useState<Post | null>(null);
   useEffect(() => {
     const viewport = viewportRef.current;
     const track = trackRef.current;
@@ -269,17 +300,18 @@ function Obras() {
   );
   return (
     <section id="obras" className="relative bg-forest text-bone">
+      <AnimatePresence>{open && <ReelModal key={open.url} p={open} onClose={() => setOpen(null)} />}</AnimatePresence>
       {/* Mobile: carrossel nativo, sem travar a rolagem */}
       <div className="grain py-20 md:hidden">
         {header}
-        <ObrasMobile />
+        <ObrasMobile onOpen={setOpen} />
       </div>
       {/* Desktop: rolagem vertical vira movimento horizontal (sem bloquear a página) */}
       <div ref={ref} className="hidden h-[300vh] md:block">
         <div ref={viewportRef} className="grain sticky top-0 flex h-svh flex-col justify-center overflow-hidden pt-24 pb-8">
           {header}
           <motion.div ref={trackRef} style={{ x }} className="flex w-max shrink-0 gap-16 px-12 will-change-transform">
-            {obras.map((p, i) => <ObraCard key={p.url} p={p} i={i} />)}
+            {obras.map((p, i) => <ObraCard key={p.url} p={p} i={i} onOpen={setOpen} />)}
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="group flex w-[30vw] shrink-0 flex-col justify-center border-l border-forest-line pl-12">
               <span className="label-mono mb-6 text-accent">Acompanhe</span>
               <span className="display text-6xl transition-colors group-hover:text-accent">Todas as obras no Instagram ↗</span>
