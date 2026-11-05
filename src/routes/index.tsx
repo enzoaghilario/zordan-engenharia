@@ -278,7 +278,7 @@ function Obras() {
       <div ref={ref} className="hidden h-[300vh] md:block">
         <div ref={viewportRef} className="grain sticky top-0 flex h-svh flex-col justify-center overflow-hidden pt-24 pb-8">
           {header}
-          <motion.div ref={trackRef} style={{ x }} className="flex shrink-0 gap-16 px-12 will-change-transform">
+          <motion.div ref={trackRef} style={{ x }} className="flex w-max shrink-0 gap-16 px-12 will-change-transform">
             {obras.map((p, i) => <ObraCard key={p.url} p={p} i={i} />)}
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="group flex w-[30vw] shrink-0 flex-col justify-center border-l border-forest-line pl-12">
               <span className="label-mono mb-6 text-accent">Acompanhe</span>
