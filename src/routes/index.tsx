@@ -340,9 +340,9 @@ function Metodo() {
           {Array.from({ length: 8 }).map((_, i) => (
             <span key={i} className="flex items-center gap-6 pr-6 md:gap-10 md:pr-10">
               <span className="label-mono text-accent">Em parceria com</span>
-              <span className="display text-2xl italic md:text-4xl">Grupo Kurihara e Figueiredo</span>
-              <span className="text-accent">✦</span>
-              <span className="display text-2xl italic md:text-4xl">Zordan Engenharia</span>
+              <Logo className="shrink-0" />
+              <span className="display text-2xl text-accent md:text-3xl">×</span>
+              <span className="display text-2xl italic md:text-4xl">Grupo Kurihara <span className="text-accent">&amp;</span> Figueiredo</span>
               <span className="text-accent">✦</span>
             </span>
           ))}
