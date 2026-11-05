@@ -1,7 +1,7 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import videoDesktop from "@/assets/video/obras-desktop.mp4.asset.json";
-import videoMobile from "@/assets/video/obras-mobile.mp4.asset.json";
+const VIDEO_DESKTOP = "/video/metodo-1080.mp4";
+const VIDEO_MOBILE = "/video/metodo-720.mp4";
 import videoPoster from "@/assets/video/obras-poster.jpg";
 import { Logo } from "@/components/site/Logo";
 import { METODO_SCENES, METODO_LOGO_HOLD_MS, METODO_LOGO_FADE_MS, metodoSceneAt } from "@/lib/metodo-timeline";
@@ -19,12 +19,25 @@ export function MetodoVideo() {
     if (!el) return;
     const io = new IntersectionObserver(([entry]) => {
       if (!entry?.isIntersecting) return;
-      setSrc(window.matchMedia("(max-width: 767px)").matches ? videoMobile.url : videoDesktop.url);
+      setSrc(window.matchMedia("(max-width: 767px)").matches ? VIDEO_MOBILE : VIDEO_DESKTOP);
       io.disconnect();
     }, { rootMargin: "400px" });
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
+  useEffect(() => {
+    const video = ref.current;
+    if (!video || !src) return;
+    video.muted = true;
+    video.load();
+    const tryPlay = () => { void video.play().catch(() => {}); };
+    tryPlay();
+    video.addEventListener("canplay", tryPlay, { once: true });
+    const onTouch = () => { if (video.paused) tryPlay(); };
+    window.addEventListener("touchstart", onTouch, { passive: true });
+    return () => { video.removeEventListener("canplay", tryPlay); window.removeEventListener("touchstart", onTouch); };
+  }, [src]);
 
   useEffect(() => {
     if (phase === "playing") return;
@@ -45,7 +58,7 @@ export function MetodoVideo() {
 
   return (
     <div className="grain relative flex aspect-[4/3] w-full min-w-0 items-center justify-center overflow-hidden bg-forest-deep text-bone md:aspect-auto md:min-h-[85svh]" role="group" aria-label="A história da Zordan Engenharia">
-      <video ref={ref} src={src ?? undefined} poster={videoPoster} autoPlay muted playsInline preload="metadata" aria-hidden
+      <video ref={ref} src={src ?? undefined} poster={videoPoster} autoPlay muted playsInline preload="auto" aria-hidden disablePictureInPicture {...{ "webkit-playsinline": "true" }}
         onTimeUpdate={(event) => setSceneIndex(metodoSceneAt(event.currentTarget.currentTime))}
         onEnded={() => setPhase("logo")}
         className="absolute inset-0 h-full w-full object-cover" />
