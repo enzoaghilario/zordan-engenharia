@@ -3,9 +3,7 @@ import { motion, useScroll, useTransform, useMotionValue, useSpring } from "moti
 import { useRef, useState, useEffect } from "react";
 import hero from "@/assets/hero-residencia.jpg";
 import detalhe from "@/assets/detalhe-fachada.jpg";
-import videoDesktop from "@/assets/video/obras-desktop.mp4.asset.json";
-import videoMobile from "@/assets/video/obras-mobile.mp4.asset.json";
-import videoPoster from "@/assets/video/obras-poster.jpg";
+import { MetodoVideo } from "@/components/site/MetodoVideo";
 import { Logo, ZordanMark } from "@/components/site/Logo";
 import { Reveal, SplitWords } from "@/components/site/Reveal";
 import { INSTAGRAM_URL, obras, patrocinio, datas, type Post } from "@/lib/instagram";
@@ -279,40 +277,6 @@ function Obras() {
   );
 }
 
-function MetodoVideo() {
-  const ref = useRef<HTMLVideoElement>(null);
-  const [src, setSrc] = useState<string | null>(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (e?.isIntersecting) {
-          setSrc(window.matchMedia("(max-width: 767px)").matches ? videoMobile.url : videoDesktop.url);
-          io.disconnect();
-        }
-      },
-      { rootMargin: "400px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  return (
-    <video
-      ref={ref}
-      src={src ?? undefined}
-      poster={videoPoster}
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="metadata"
-      aria-hidden
-      className="absolute inset-0 h-full w-full object-cover"
-    />
-  );
-}
-
 function Metodo() {
   const steps = [
     ["Estudo", "Leitura do terreno, viabilidade técnica e planejamento de custos com total transparência."],
@@ -322,16 +286,12 @@ function Metodo() {
   ];
   return (
     <section id="metodo" className="bg-background">
-      <div className="grain relative flex min-h-[85svh] items-end overflow-hidden bg-forest-deep text-bone">
-        <MetodoVideo />
-        <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-forest-deep via-forest-deep/40 to-transparent" />
-        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-forest-deep/50 to-transparent" />
-        <div className="relative mx-auto grid w-full max-w-[1600px] gap-10 px-6 pb-20 pt-40 md:grid-cols-2 md:px-12">
-          <p className="label-mono text-accent">(03) — Método</p>
-          <h2 className="display text-[clamp(2.75rem,6vw,6rem)]">Quatro tempos. <span className="italic text-accent">Nenhum improviso.</span></h2>
-        </div>
-      </div>
+      <MetodoVideo />
       <div className="mx-auto max-w-[1600px] px-6 py-24 md:px-12 md:py-32">
+        <div className="mb-16 grid gap-10 md:grid-cols-2">
+          <p className="label-mono text-primary">(03) — Método</p>
+          <h2 className="display text-[clamp(2.75rem,6vw,6rem)] text-primary">Quatro tempos. <span className="italic text-accent">Nenhum improviso.</span></h2>
+        </div>
         <div className="grid border-t border-primary md:grid-cols-4">
           {steps.map(([t, d], i) => (
             <Reveal key={t} delay={i * 0.1} className="group relative border-b border-border py-12 md:border-b-0 md:border-r md:px-8 md:first:pl-0 md:last:border-r-0">

@@ -28,3 +28,5 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- Keep the Método film playback and outro lifecycle in its dedicated component, with scene boundaries in a shared pure timeline module so synchronization is independently testable.
