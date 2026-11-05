@@ -44,7 +44,7 @@ export function MetodoVideo() {
   }, [phase, reducedMotion]);
 
   return (
-    <div className="grain relative flex min-h-[85svh] items-center justify-center overflow-hidden bg-forest-deep text-bone" role="group" aria-label="A história da Zordan Engenharia">
+    <div className="grain relative flex aspect-[4/3] min-h-72 items-center justify-center overflow-hidden bg-forest-deep text-bone md:aspect-auto md:min-h-[85svh]" role="group" aria-label="A história da Zordan Engenharia">
       <video ref={ref} src={src ?? undefined} poster={videoPoster} autoPlay muted playsInline preload="metadata" aria-hidden
         onTimeUpdate={(event) => setSceneIndex(metodoSceneAt(event.currentTarget.currentTime))}
         onEnded={() => setPhase("logo")}

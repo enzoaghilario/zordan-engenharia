@@ -36,8 +36,8 @@ function Nav() {
     <header
       className={`fixed inset-x-0 top-0 z-50 text-bone transition-all duration-700 ${solid ? "border-b border-forest-line bg-forest-deep/80 py-4 backdrop-blur-xl" : "py-7"}`}
     >
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 md:px-12">
-        <a href="#topo"><Logo /></a>
+      <div className="mx-auto grid max-w-[1600px] grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 sm:flex sm:justify-between sm:px-6 md:px-12">
+        <a href="#topo" aria-label="Zordan Engenharia — início" className="min-w-0 min-h-11 content-center"><Logo className="nav-logo" /></a>
         <nav className="label-mono hidden gap-10 md:flex">
           {[["Manifesto", "#manifesto"], ["Obras", "#obras"], ["Método", "#metodo"], ["Novidades", "#novidades"]].map(([l, h]) => (
             <a key={h} href={h} className="group relative py-1">
@@ -46,7 +46,7 @@ function Nav() {
             </a>
           ))}
         </nav>
-        <a href="https://wa.me/5516991078596" target="_blank" rel="noreferrer" className="label-mono border-b border-accent pb-1 text-accent transition-colors hover:text-bone">
+        <a href="https://wa.me/5516991078596" target="_blank" rel="noreferrer" className="label-mono flex min-h-11 shrink-0 items-center whitespace-nowrap border-b border-accent pb-1 text-accent transition-colors hover:text-bone">
           Fale conosco ↗
         </a>
       </div>
@@ -76,7 +76,7 @@ function Hero() {
 
       <motion.div style={{ y: textY, opacity: fade }} className="relative mx-auto flex min-h-svh max-w-[1600px] flex-col justify-end px-6 pb-12 pt-36 md:px-12 md:pb-14">
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 1 }} className="label-mono mb-6 flex items-center gap-4 text-accent">
-          <span className="h-px w-16 bg-accent" /> Engenharia de alto padrão
+          <span className="h-px w-8 shrink-0 bg-accent md:w-16" /> Engenharia de alto padrão
         </motion.p>
         <h1 className="display hero-title max-w-6xl">
           {["Construímos", "o que", "permanece."].map((l, i) => (
@@ -93,7 +93,7 @@ function Hero() {
           ))}
         </h1>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.3, duration: 1 }} className="mt-8 grid gap-6 border-t border-forest-line pt-6 md:grid-cols-[1fr_auto]">
-          <p className="max-w-md text-lg font-light leading-relaxed text-bone/75">
+          <p className="max-w-md text-base font-light leading-relaxed text-bone/75 md:text-lg">
             Do movimento de terra à última pedra do acabamento — projetos executados com rigor técnico e a calma de quem constrói para gerações.
           </p>
           <a href="#obras" className="label-mono flex items-center gap-4 self-end">
@@ -130,16 +130,16 @@ function Manifesto() {
   const imgY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
   const frameY = useTransform(scrollYProgress, [0, 1], [120, -120]);
   return (
-    <section id="manifesto" ref={ref} className="relative overflow-hidden bg-background py-32 md:py-48">
-      <div className="mx-auto grid max-w-[1600px] gap-20 px-6 md:grid-cols-12 md:px-12">
+    <section id="manifesto" ref={ref} className="relative overflow-hidden bg-background py-20 md:py-48">
+      <div className="mx-auto grid max-w-[1600px] gap-12 px-6 md:grid-cols-12 md:gap-20 md:px-12">
         <div className="md:col-span-7">
           <p className="label-mono mb-10 text-muted-foreground">(01) — Manifesto</p>
-          <h2 className="display text-[clamp(2.5rem,6vw,6rem)] text-primary">
+          <h2 className="display mobile-heading text-[clamp(2.5rem,6vw,6rem)] text-primary">
             <SplitWords text="Engenharia é a arte de transformar" />
             <SplitWords text="ideias em obras" className="italic text-accent" />
             <SplitWords text="que atravessam o tempo." />
           </h2>
-          <div className="mt-20 grid gap-0 border-t border-border sm:grid-cols-3">
+          <div className="mt-12 grid gap-0 border-t border-border sm:grid-cols-3 md:mt-20">
             {[
               ["Precisão", "Cada etapa medida, verificada e documentada."],
               ["Solidez", "Bases sólidas — no concreto e nas relações."],
@@ -190,10 +190,10 @@ function ObraCard({ p, i, mobile = false }: { p: Post; i: number; mobile?: boole
         {p.video && <span className="label-mono absolute right-5 top-5 border border-bone/40 px-3 py-1.5 text-bone backdrop-blur-sm">▶ Reel</span>}
         <span className="display absolute -bottom-6 left-4 text-[9rem] text-outline opacity-60">{String(i + 1).padStart(2, "0")}</span>
       </div>
-      <div className="mt-6 flex items-start justify-between gap-6 border-t border-forest-line pt-5">
-        <div>
+      <div className="mt-6 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3 border-t border-forest-line pt-5">
+        <div className="min-w-0">
           <p className="label-mono mb-2 text-accent">{p.tag}</p>
-          <h3 className={mobile ? "display text-3xl" : "display text-2xl"}>{p.title}</h3>
+          <h3 className={mobile ? "display text-2xl leading-tight [overflow-wrap:anywhere]" : "display text-2xl"}>{p.title}</h3>
         </div>
         <span className="label-mono whitespace-nowrap text-bone/50">{p.date}</span>
       </div>
@@ -224,7 +224,7 @@ function ObrasMobile() {
         ))}
         <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="flex w-[82vw] shrink-0 snap-start flex-col justify-center border-l border-forest-line pl-8">
           <span className="label-mono mb-6 text-accent">Acompanhe</span>
-          <span className="display text-5xl">Todas as obras no Instagram ↗</span>
+          <span className="display text-4xl leading-tight">Todas as obras no Instagram ↗</span>
         </a>
       </div>
       <div className="mt-6 flex justify-center gap-2" aria-hidden>
@@ -259,7 +259,7 @@ function Obras() {
     <div className="mx-auto mb-12 flex w-full max-w-[1600px] items-end justify-between px-6 md:px-12">
       <div>
         <p className="label-mono mb-6 text-accent">(02) — Canteiro</p>
-        <h2 className="display text-[clamp(3rem,7vw,7rem)]">Obras <span className="italic text-accent">em curso</span></h2>
+        <h2 className="display mobile-heading text-[clamp(3rem,7vw,7rem)]">Obras <span className="italic text-accent">em curso</span></h2>
       </div>
       <div className="hidden w-64 md:block">
         <p className="label-mono mb-3 text-bone/50">Direto do @zordanengenharia</p>
@@ -270,7 +270,7 @@ function Obras() {
   return (
     <section id="obras" className="relative bg-forest text-bone">
       {/* Mobile: carrossel nativo, sem travar a rolagem */}
-      <div className="grain py-24 md:hidden">
+      <div className="grain py-20 md:hidden">
         {header}
         <ObrasMobile />
       </div>
@@ -301,16 +301,16 @@ function Metodo() {
   return (
     <section id="metodo" className="bg-background">
       <MetodoVideo />
-      <div className="mx-auto max-w-[1600px] px-6 py-24 md:px-12 md:py-32">
-        <div className="mb-16 grid gap-10 md:grid-cols-2">
+      <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-12 md:py-32">
+        <div className="mb-12 grid gap-6 md:mb-16 md:grid-cols-2 md:gap-10">
           <p className="label-mono text-primary">(03) — Método</p>
-          <h2 className="display text-[clamp(2.75rem,6vw,6rem)] text-primary">Quatro tempos. <span className="italic text-accent">Nenhum improviso.</span></h2>
+          <h2 className="display mobile-heading text-[clamp(2.75rem,6vw,6rem)] text-primary">Quatro tempos. <span className="italic text-accent">Nenhum improviso.</span></h2>
         </div>
         <div className="grid border-t border-primary md:grid-cols-4">
           {steps.map(([t, d], i) => (
-            <Reveal key={t} delay={i * 0.1} className="group relative border-b border-border py-12 md:border-b-0 md:border-r md:px-8 md:first:pl-0 md:last:border-r-0">
-              <span className="display block text-[7rem] text-outline transition-colors duration-700 group-hover:text-accent">{i + 1}</span>
-              <h3 className="display mt-6 text-4xl text-primary">{t}</h3>
+            <Reveal key={t} delay={i * 0.1} className="group relative min-w-0 border-b border-border py-8 md:border-b-0 md:border-r md:px-8 md:py-12 md:first:pl-0 md:last:border-r-0">
+              <span className="display block text-6xl text-outline transition-colors duration-700 group-hover:text-accent md:text-[7rem]">{i + 1}</span>
+              <h3 className="display mt-4 text-3xl text-primary md:mt-6 md:text-4xl">{t}</h3>
               <p className="mt-4 max-w-xs leading-relaxed text-muted-foreground">{d}</p>
               <span className="absolute left-0 top-0 h-[3px] w-0 bg-accent transition-all duration-700 group-hover:w-full" />
             </Reveal>
@@ -329,14 +329,14 @@ function Patrocinio() {
   const y3 = useTransform(scrollYProgress, [0, 1], [140, -140]);
   const big = useTransform(scrollYProgress, [0, 1], ["10%", "-30%"]);
   return (
-    <section ref={ref} className="grain relative overflow-hidden bg-forest-deep py-32 text-bone md:py-48">
+    <section ref={ref} className="grain relative overflow-hidden bg-forest-deep py-20 text-bone md:py-48">
       <motion.p style={{ x: big }} className="display pointer-events-none absolute top-1/2 -translate-y-1/2 whitespace-nowrap text-[22vw] italic text-bone/[0.04]">
         Beach Tennis · Beach Tennis
       </motion.p>
-      <div className="relative mx-auto grid max-w-[1600px] items-center gap-20 px-6 md:grid-cols-2 md:px-12">
+      <div className="relative mx-auto grid max-w-[1600px] items-center gap-12 px-6 md:grid-cols-2 md:gap-20 md:px-12">
         <div>
           <p className="label-mono mb-8 text-accent">(05) — Além da obra</p>
-          <h2 className="display text-[clamp(2.5rem,5.5vw,5.5rem)]">A mesma garra, <span className="italic text-accent">dentro e fora</span> do canteiro.</h2>
+          <h2 className="display mobile-heading text-[clamp(2.5rem,5.5vw,5.5rem)]">A mesma garra, <span className="italic text-accent">dentro e fora</span> do canteiro.</h2>
           <p className="mt-10 max-w-md text-lg font-light leading-relaxed text-bone/70">
             A Zordan Engenharia patrocina o atleta de beach tennis Dani Mola — porque disciplina, técnica e constância constroem resultados em qualquer terreno.
           </p>
@@ -344,9 +344,9 @@ function Patrocinio() {
             Acompanhe o atleta ↗
           </a>
         </div>
-        <div className="relative h-[620px]">
+        <div className="patrocinio-gallery relative grid grid-cols-2 items-start gap-4 md:block md:h-[620px]">
           {[[patrocinio[1]!, y1, "left-0 top-10 w-[52%] z-10"], [patrocinio[0]!, y2, "right-0 top-0 w-[56%]"], [patrocinio[3]!, y3, "left-[22%] bottom-0 w-[44%] z-20"]].map(([p, y, cls], i) => (
-            <motion.a key={i} href={(p as Post).url} target="_blank" rel="noreferrer" style={{ y: y as never }} className={`absolute block shadow-[0_40px_80px_-20px_oklch(0_0_0/0.6)] ${cls as string}`}>
+            <motion.a key={i} href={(p as Post).url} target="_blank" rel="noreferrer" style={{ y: y as never }} className={`patrocinio-image absolute block shadow-[0_40px_80px_-20px_oklch(0_0_0/0.6)] ${cls as string}`}>
               <img src={(p as Post).img} alt={(p as Post).title} loading="lazy" className="aspect-[4/5] w-full object-cover" />
             </motion.a>
           ))}
@@ -364,23 +364,23 @@ function Novidades() {
   const sx = useSpring(mx, { stiffness: 200, damping: 25 });
   const sy = useSpring(my, { stiffness: 200, damping: 25 });
   return (
-    <section id="novidades" className="relative bg-background py-32 md:py-44" onMouseMove={(e) => { mx.set(e.clientX); my.set(e.clientY); }}>
+    <section id="novidades" className="relative bg-background py-20 md:py-44" onMouseMove={(e) => { mx.set(e.clientX); my.set(e.clientY); }}>
       <div className="mx-auto max-w-[1600px] px-6 md:px-12">
-        <div className="mb-20 flex flex-wrap items-end justify-between gap-8">
-          <div>
+        <div className="mb-12 grid gap-6 md:mb-20 md:flex md:items-end md:justify-between md:gap-8">
+          <div className="min-w-0">
             <p className="label-mono mb-6 text-muted-foreground">(04) — Diário de obra</p>
-            <h2 className="display text-[clamp(3rem,7vw,7rem)] text-primary">Novi<span className="italic text-accent">dades</span></h2>
+            <h2 className="display mobile-heading text-[clamp(3rem,7vw,7rem)] text-primary">Novi<span className="italic text-accent">dades</span></h2>
           </div>
-          <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="label-mono border-b border-primary pb-1 text-primary">@zordanengenharia ↗</a>
+          <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="label-mono w-fit border-b border-primary py-3 text-primary md:pb-1 md:pt-0">@zordanengenharia ↗</a>
         </div>
         <ul className="border-t border-primary" onMouseLeave={() => setHover(null)}>
           {list.map((p, i) => (
             <li key={p.url + i}>
-              <a href={p.url} target="_blank" rel="noreferrer" onMouseEnter={() => setHover(i)} className="group grid grid-cols-[3rem_1fr_auto] items-center gap-6 border-b border-border py-8 transition-colors duration-500 hover:bg-primary hover:text-primary-foreground md:grid-cols-[6rem_1fr_14rem_10rem] md:px-4">
+              <a href={p.url} target="_blank" rel="noreferrer" onMouseEnter={() => setHover(i)} className="group grid grid-cols-[2rem_minmax(0,1fr)] items-start gap-x-3 gap-y-2 border-b border-border py-6 transition-colors duration-500 hover:bg-primary hover:text-primary-foreground md:grid-cols-[6rem_minmax(0,1fr)_14rem_10rem] md:items-center md:gap-6 md:px-4 md:py-8">
                 <span className="label-mono text-muted-foreground group-hover:text-accent">{String(i + 1).padStart(2, "0")}</span>
-                <span className="display text-2xl transition-transform duration-500 group-hover:translate-x-4 md:text-5xl">{p.title}</span>
+                <span className="display min-w-0 text-2xl leading-tight [overflow-wrap:anywhere] transition-transform duration-500 md:leading-[0.92] md:group-hover:translate-x-4 md:text-5xl">{p.title}</span>
                 <span className="label-mono hidden text-muted-foreground group-hover:text-primary-foreground/70 md:block">{p.tag}</span>
-                <span className="label-mono text-right text-muted-foreground group-hover:text-primary-foreground/70">{p.date}</span>
+                <span className="label-mono col-start-2 text-muted-foreground group-hover:text-primary-foreground/70 md:col-start-auto md:text-right">{p.date}</span>
               </a>
             </li>
           ))}
@@ -402,15 +402,15 @@ function Footer() {
   return (
     <footer className="grain relative overflow-hidden bg-forest-deep text-bone">
       <div className="mx-auto max-w-[1600px] px-6 md:px-12">
-        <div aria-hidden="true" className="border-t border-forest-line pb-32" />
+        <div aria-hidden="true" className="border-t border-forest-line pb-20 md:pb-32" />
         <Reveal>
           <p className="label-mono mb-8 text-accent">Vamos construir</p>
-          <a href="https://wa.me/5516991078596" target="_blank" rel="noreferrer" className="group display block text-[clamp(3rem,8vw,9rem)]">
+          <a href="https://wa.me/5516991078596" target="_blank" rel="noreferrer" className="group display mobile-heading block text-[clamp(3rem,8vw,9rem)]">
             Seu próximo <span className="italic text-accent">projeto</span>
             <span className="inline-block transition-transform duration-700 group-hover:translate-x-6 group-hover:-translate-y-6"> ↗</span>
           </a>
         </Reveal>
-        <div className="mt-24 grid gap-10 border-t border-forest-line py-12 md:grid-cols-4">
+        <div className="mt-12 grid gap-8 border-t border-forest-line py-10 [&>*]:min-w-0 md:mt-24 md:grid-cols-4 md:gap-10 md:py-12">
           <Logo />
           <div>
             <p className="label-mono mb-3 text-bone/40">Instagram</p>
