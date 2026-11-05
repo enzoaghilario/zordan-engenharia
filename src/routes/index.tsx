@@ -46,7 +46,7 @@ function Nav() {
             </a>
           ))}
         </nav>
-        <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="label-mono border-b border-accent pb-1 text-accent transition-colors hover:text-bone">
+        <a href="https://wa.me/5516991078596" target="_blank" rel="noreferrer" className="label-mono border-b border-accent pb-1 text-accent transition-colors hover:text-bone">
           Fale conosco ↗
         </a>
       </div>
