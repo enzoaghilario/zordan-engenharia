@@ -335,7 +335,7 @@ function Patrocinio() {
       </motion.p>
       <div className="relative mx-auto grid max-w-[1600px] items-center gap-20 px-6 md:grid-cols-2 md:px-12">
         <div>
-          <p className="label-mono mb-8 text-accent">(04) — Além da obra</p>
+          <p className="label-mono mb-8 text-accent">(05) — Além da obra</p>
           <h2 className="display text-[clamp(2.5rem,5.5vw,5.5rem)]">A mesma garra, <span className="italic text-accent">dentro e fora</span> do canteiro.</h2>
           <p className="mt-10 max-w-md text-lg font-light leading-relaxed text-bone/70">
             A Zordan Engenharia patrocina o atleta de beach tennis Dani Mola — porque disciplina, técnica e constância constroem resultados em qualquer terreno.
@@ -368,7 +368,7 @@ function Novidades() {
       <div className="mx-auto max-w-[1600px] px-6 md:px-12">
         <div className="mb-20 flex flex-wrap items-end justify-between gap-8">
           <div>
-            <p className="label-mono mb-6 text-muted-foreground">(05) — Diário de obra</p>
+            <p className="label-mono mb-6 text-muted-foreground">(04) — Diário de obra</p>
             <h2 className="display text-[clamp(3rem,7vw,7rem)] text-primary">Novi<span className="italic text-accent">dades</span></h2>
           </div>
           <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="label-mono border-b border-primary pb-1 text-primary">@zordanengenharia ↗</a>
@@ -404,7 +404,7 @@ function Footer() {
       <div className="mx-auto max-w-[1600px] px-6 md:px-12">
         <Reveal>
           <p className="label-mono mb-8 text-accent">Vamos construir</p>
-          <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="group display block text-[clamp(3rem,8vw,9rem)]">
+          <a href="https://wa.me/5516991078596" target="_blank" rel="noreferrer" className="group display block text-[clamp(3rem,8vw,9rem)]">
             Seu próximo <span className="italic text-accent">projeto</span>
             <span className="inline-block transition-transform duration-700 group-hover:translate-x-6 group-hover:-translate-y-6"> ↗</span>
           </a>
@@ -414,6 +414,13 @@ function Footer() {
           <div>
             <p className="label-mono mb-3 text-bone/40">Instagram</p>
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-accent">@zordanengenharia</a>
+            <p className="label-mono mb-3 mt-6 text-bone/40">WhatsApp</p>
+            <a href="https://wa.me/5516991078596" target="_blank" rel="noreferrer" className="inline-flex items-center gap-3 text-accent transition-colors hover:text-bone">
+              <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 shrink-0" aria-hidden="true">
+                <path d="M20.52 3.48A11.9 11.9 0 0 0 12.05 0C5.47 0 .12 5.35.12 11.93c0 2.1.55 4.15 1.6 5.96L0 24l6.25-1.64a11.94 11.94 0 0 0 5.8 1.48h.01c6.58 0 11.93-5.35 11.94-11.93a11.86 11.86 0 0 0-3.48-8.43ZM12.06 21.83a9.9 9.9 0 0 1-5.05-1.38l-.36-.21-3.71.97.99-3.62-.24-.37a9.87 9.87 0 0 1-1.52-5.29c0-5.47 4.45-9.92 9.92-9.92a9.85 9.85 0 0 1 7.02 2.91 9.85 9.85 0 0 1 2.9 7.02c0 5.47-4.45 9.92-9.95 9.89Zm5.44-7.42c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.49-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.27.49 1.71.63.72.23 1.38.2 1.9.12.58-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35Z" />
+              </svg>
+              <span>+55 16 99107-8596 ↗</span>
+            </a>
           </div>
           <div>
             <p className="label-mono mb-3 text-bone/40">Atuação</p>
@@ -436,8 +443,8 @@ function Index() {
       <Manifesto />
       <Obras />
       <Metodo />
-      <Patrocinio />
       <Novidades />
+      <Patrocinio />
       <Footer />
     </main>
   );
