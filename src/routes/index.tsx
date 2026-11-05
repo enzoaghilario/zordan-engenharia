@@ -139,7 +139,7 @@ function Manifesto() {
             <SplitWords text="ideias em obras" className="italic text-accent" />
             <SplitWords text="que atravessam o tempo." />
           </h2>
-          <div className="no-scrollbar -mx-6 mt-12 flex snap-x snap-mandatory gap-0 overflow-x-auto border-t border-border px-6 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 md:mt-20">
+          <div className="no-scrollbar -mx-6 mt-12 flex snap-x snap-mandatory scroll-px-6 gap-0 overflow-x-auto border-t border-border px-6 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 md:mt-20">
             {[
               ["Precisão", "Cada etapa medida, verificada e documentada."],
               ["Solidez", "Bases sólidas — no concreto e nas relações."],
@@ -407,7 +407,7 @@ function Novidades() {
           </div>
           <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="label-mono w-fit border-b border-primary py-3 text-primary md:pb-1 md:pt-0">@zordanengenharia ↗</a>
         </div>
-        <div className="no-scrollbar -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 md:hidden">
+        <div className="no-scrollbar -mx-6 flex snap-x snap-mandatory scroll-px-6 gap-4 overflow-x-auto px-6 md:hidden">
           {list.map((p, i) => (
             <a key={p.url + i} href={p.url} target="_blank" rel="noreferrer" className="w-[64vw] shrink-0 snap-start">
               <div className="relative aspect-[4/5] overflow-hidden bg-muted">
