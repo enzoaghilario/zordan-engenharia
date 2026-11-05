@@ -324,8 +324,8 @@ function Metodo() {
     <section id="metodo" className="bg-background">
       <div className="grain relative flex min-h-[85svh] items-end overflow-hidden bg-forest-deep text-bone">
         <MetodoVideo />
-        <div className="absolute inset-0 bg-forest-deep/55 mix-blend-multiply" />
-        <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/30 to-forest-deep/60" />
+        <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-forest-deep via-forest-deep/40 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-forest-deep/50 to-transparent" />
         <div className="relative mx-auto grid w-full max-w-[1600px] gap-10 px-6 pb-20 pt-40 md:grid-cols-2 md:px-12">
           <p className="label-mono text-accent">(03) — Método</p>
           <h2 className="display text-[clamp(2.75rem,6vw,6rem)]">Quatro tempos. <span className="italic text-accent">Nenhum improviso.</span></h2>
