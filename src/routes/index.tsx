@@ -182,9 +182,9 @@ function ObraCard({ p, i, mobile = false }: { p: Post; i: number; mobile?: boole
       }}
       onMouseLeave={() => { mx.set(0); my.set(0); }}
       style={{ rotateX: rx, rotateY: ry, transformPerspective: 1200 }}
-      className={mobile ? "group relative block" : `group relative block w-[min(36vw,28svh)] shrink-0 ${i % 2 ? "mt-10" : ""}`}
+      className={mobile ? "group relative block" : `group relative block w-[min(36vw,40svh)] shrink-0 ${i % 2 ? "mt-10" : ""}`}
     >
-      <div className="relative aspect-[4/5] overflow-hidden bg-forest">
+      <div className={mobile ? "relative aspect-[4/5] overflow-hidden bg-forest" : "relative h-[32svh] overflow-hidden bg-forest"}>
         <img src={p.img} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-[1.6s] ease-out group-hover:scale-110" />
         <div className="absolute inset-0 bg-gradient-to-t from-forest-deep/90 via-transparent to-transparent" />
         {p.video && <span className="label-mono absolute right-5 top-5 border border-bone/40 px-3 py-1.5 text-bone backdrop-blur-sm">▶ Reel</span>}
@@ -193,7 +193,7 @@ function ObraCard({ p, i, mobile = false }: { p: Post; i: number; mobile?: boole
       <div className="mt-6 flex items-start justify-between gap-6 border-t border-forest-line pt-5">
         <div>
           <p className="label-mono mb-2 text-accent">{p.tag}</p>
-          <h3 className="display text-3xl">{p.title}</h3>
+          <h3 className={mobile ? "display text-3xl" : "display text-2xl"}>{p.title}</h3>
         </div>
         <span className="label-mono whitespace-nowrap text-bone/50">{p.date}</span>
       </div>
