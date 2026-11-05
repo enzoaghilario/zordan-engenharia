@@ -430,7 +430,7 @@ function Footer() {
           <p className="label-mono text-bone/40 md:text-right">© {new Date().getFullYear()} Zordan Engenharia</p>
         </div>
       </div>
-      <p className="display pointer-events-none -mb-[0.2em] select-none text-center text-[24vw] leading-none text-bone/[0.06]">ZORDAN</p>
+      <p className="display pointer-events-none select-none px-3 pb-6 text-center text-[4.5rem] leading-[1.15] text-bone/[0.06] sm:text-[7rem] md:text-[9rem] lg:text-[12rem] xl:text-[15rem] 2xl:text-[18rem]">ZORDAN</p>
     </footer>
   );
 }
