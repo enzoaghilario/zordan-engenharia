@@ -189,7 +189,9 @@ function ReelModal({ p, onClose }: { p: Post; onClose: () => void }) {
           <p className="label-mono min-w-0 truncate text-accent">{p.tag} — {p.title}</p>
           <button type="button" onClick={onClose} aria-label="Fechar vídeo" className="label-mono shrink-0 border border-bone/40 px-3 py-1.5 transition-colors hover:border-accent hover:text-accent">Fechar ✕</button>
         </div>
-        {src && <iframe src={src} title={p.title} allow="autoplay; encrypted-media; picture-in-picture; clipboard-write" allowFullScreen className="min-h-0 w-full flex-1 border-0 bg-bone" />}
+        {p.videoSrc ? (
+          <video src={p.videoSrc} poster={p.videoPoster} controls autoPlay playsInline preload="auto" className="min-h-0 w-full flex-1 bg-black object-contain" />
+        ) : src && <iframe src={src} title={p.title} allow="autoplay; encrypted-media; picture-in-picture; clipboard-write" allowFullScreen className="min-h-0 w-full flex-1 border-0 bg-bone" />}
       </div>
     </motion.div>
   );
