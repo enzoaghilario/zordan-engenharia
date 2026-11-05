@@ -335,6 +335,19 @@ function Metodo() {
   return (
     <section id="metodo" className="bg-background">
       <MetodoVideo />
+      <div className="w-full min-w-0 overflow-hidden border-y border-forest-line bg-forest-deep py-5 text-bone md:py-7" aria-label="Zordan Engenharia em parceria com o Grupo Kurihara e Figueiredo">
+        <div className="parceria-track animate-marquee flex w-max items-center whitespace-nowrap" aria-hidden>
+          {Array.from({ length: 8 }).map((_, i) => (
+            <span key={i} className="flex items-center gap-6 pr-6 md:gap-10 md:pr-10">
+              <span className="label-mono text-accent">Em parceria com</span>
+              <span className="display text-2xl italic md:text-4xl">Grupo Kurihara e Figueiredo</span>
+              <span className="text-accent">✦</span>
+              <span className="display text-2xl italic md:text-4xl">Zordan Engenharia</span>
+              <span className="text-accent">✦</span>
+            </span>
+          ))}
+        </div>
+      </div>
       <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-12 md:py-32">
         <div className="mb-12 grid gap-6 md:mb-16 md:grid-cols-2 md:gap-10">
           <p className="label-mono text-primary">(03) — Método</p>

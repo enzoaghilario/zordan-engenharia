@@ -259,4 +259,5 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .metodo-logo { animation: none; }
+  .parceria-track { animation: none; }
 }
