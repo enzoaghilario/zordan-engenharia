@@ -262,9 +262,9 @@ function Metodo() {
 function Patrocinio() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y1 = useTransform(scrollYProgress, [0, 1], [180, -180]);
+  const y1 = useTransform(scrollYProgress, [0, 1], [110, -110]);
   const y2 = useTransform(scrollYProgress, [0, 1], [-60, 60]);
-  const y3 = useTransform(scrollYProgress, [0, 1], [260, -260]);
+  const y3 = useTransform(scrollYProgress, [0, 1], [140, -140]);
   const big = useTransform(scrollYProgress, [0, 1], ["10%", "-30%"]);
   return (
     <section ref={ref} className="grain relative overflow-hidden bg-forest-deep py-32 text-bone md:py-48">
