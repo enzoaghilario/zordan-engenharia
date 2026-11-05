@@ -199,6 +199,23 @@
   &::-webkit-scrollbar { display: none; }
 }
 
+.hero-title {
+  font-size: 2.75rem;
+  letter-spacing: 0;
+}
+@media (min-width: 640px) {
+  .hero-title { font-size: 4.5rem; }
+}
+@media (min-width: 1024px) {
+  .hero-title { font-size: 7rem; }
+}
+@media (min-width: 1440px) and (min-height: 850px) {
+  .hero-title { font-size: 9rem; }
+}
+@media (min-width: 768px) and (max-height: 760px) {
+  .hero-title { font-size: 5rem; }
+}
+
 .metodo-phrase {
   font-size: 3.75rem;
   line-height: 1.12;

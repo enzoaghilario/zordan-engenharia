@@ -62,7 +62,7 @@ function Hero() {
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-60%"]);
   const fade = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
   return (
-    <section id="topo" ref={ref} className="grain relative h-[110svh] overflow-hidden bg-forest-deep text-bone">
+    <section id="topo" ref={ref} className="grain relative min-h-svh overflow-hidden bg-forest-deep text-bone">
       <motion.img
         src={hero}
         alt="Residência de alto padrão ao entardecer"
@@ -74,11 +74,11 @@ function Hero() {
       <div className="absolute inset-0 bg-gradient-to-r from-forest-deep via-forest-deep/60 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-transparent to-forest-deep/50" />
 
-      <motion.div style={{ y: textY, opacity: fade }} className="relative mx-auto flex h-svh max-w-[1600px] flex-col justify-end px-6 pb-24 md:px-12">
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 1 }} className="label-mono mb-8 flex items-center gap-4 text-accent">
+      <motion.div style={{ y: textY, opacity: fade }} className="relative mx-auto flex min-h-svh max-w-[1600px] flex-col justify-end px-6 pb-12 pt-36 md:px-12 md:pb-14">
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 1 }} className="label-mono mb-6 flex items-center gap-4 text-accent">
           <span className="h-px w-16 bg-accent" /> Engenharia de alto padrão
         </motion.p>
-        <h1 className="display max-w-6xl text-[clamp(3.5rem,11vw,11rem)]">
+        <h1 className="display hero-title max-w-6xl">
           {["Construímos", "o que", "permanece."].map((l, i) => (
             <span key={l} className="block overflow-hidden pb-[0.06em]">
               <motion.span
@@ -92,7 +92,7 @@ function Hero() {
             </span>
           ))}
         </h1>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.3, duration: 1 }} className="mt-14 grid gap-8 border-t border-forest-line pt-8 md:grid-cols-[1fr_auto]">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.3, duration: 1 }} className="mt-8 grid gap-6 border-t border-forest-line pt-6 md:grid-cols-[1fr_auto]">
           <p className="max-w-md text-lg font-light leading-relaxed text-bone/75">
             Do movimento de terra à última pedra do acabamento — projetos executados com rigor técnico e a calma de quem constrói para gerações.
           </p>
