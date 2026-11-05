@@ -182,7 +182,7 @@ function ObraCard({ p, i, mobile = false }: { p: Post; i: number; mobile?: boole
       }}
       onMouseLeave={() => { mx.set(0); my.set(0); }}
       style={{ rotateX: rx, rotateY: ry, transformPerspective: 1200 }}
-      className={mobile ? "group relative block" : `group relative block w-[min(36vw,36svh)] shrink-0 ${i % 2 ? "mt-10" : ""}`}
+      className={mobile ? "group relative block" : `group relative block w-[min(36vw,28svh)] shrink-0 ${i % 2 ? "mt-10" : ""}`}
     >
       <div className="relative aspect-[4/5] overflow-hidden bg-forest">
         <img src={p.img} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-[1.6s] ease-out group-hover:scale-110" />
