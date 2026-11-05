@@ -278,12 +278,12 @@ function Patrocinio() {
           <p className="mt-10 max-w-md text-lg font-light leading-relaxed text-bone/70">
             A Zordan Engenharia patrocina o atleta de beach tennis Dani Mola — porque disciplina, técnica e constância constroem resultados em qualquer terreno.
           </p>
-          <a href={patrocinio[0].url} target="_blank" rel="noreferrer" className="label-mono mt-12 inline-flex items-center gap-4 border-b border-accent pb-2 text-accent">
+          <a href={patrocinio[0]!.url} target="_blank" rel="noreferrer" className="label-mono mt-12 inline-flex items-center gap-4 border-b border-accent pb-2 text-accent">
             Acompanhe o atleta ↗
           </a>
         </div>
         <div className="relative h-[620px]">
-          {[[patrocinio[1], y1, "left-0 top-10 w-[52%] z-10"], [patrocinio[0], y2, "right-0 top-0 w-[56%]"], [patrocinio[3], y3, "left-[22%] bottom-0 w-[44%] z-20"]].map(([p, y, cls], i) => (
+          {[[patrocinio[1]!, y1, "left-0 top-10 w-[52%] z-10"], [patrocinio[0]!, y2, "right-0 top-0 w-[56%]"], [patrocinio[3]!, y3, "left-[22%] bottom-0 w-[44%] z-20"]].map(([p, y, cls], i) => (
             <motion.a key={i} href={(p as Post).url} target="_blank" rel="noreferrer" style={{ y: y as never }} className={`absolute block shadow-[0_40px_80px_-20px_oklch(0_0_0/0.6)] ${cls as string}`}>
               <img src={(p as Post).img} alt={(p as Post).title} loading="lazy" className="aspect-[4/5] w-full object-cover" />
             </motion.a>
@@ -295,7 +295,7 @@ function Patrocinio() {
 }
 
 function Novidades() {
-  const list = [...obras.slice(0, 3), patrocinio[2], ...datas];
+  const list = [...obras.slice(0, 3), patrocinio[2]!, ...datas];
   const [hover, setHover] = useState<number | null>(null);
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
@@ -330,7 +330,7 @@ function Novidades() {
         transition={{ duration: 0.4 }}
         className="pointer-events-none fixed z-40 hidden h-72 w-56 -translate-x-1/2 -translate-y-1/2 overflow-hidden md:block"
       >
-        {hover !== null && <img src={list[hover].img} alt="" className="h-full w-full object-cover" />}
+        {hover !== null && <img src={list[hover]!.img} alt="" className="h-full w-full object-cover" />}
       </motion.div>
     </section>
   );
