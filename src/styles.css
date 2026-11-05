@@ -91,6 +91,7 @@
   --ring: oklch(0.3 0.06 158);
   --forest: oklch(0.17 0.035 160);
   --forest-deep: oklch(0.12 0.025 162);
+  --metodo-text-shadow: 0 2px 18px oklch(0.12 0.025 162 / 65%);
   --forest-line: oklch(0.975 0.006 120 / 14%);
   --bone: oklch(0.975 0.006 120);
   --chart-1: oklch(0.646 0.222 41.116);
@@ -196,4 +197,32 @@
 @utility no-scrollbar {
   scrollbar-width: none;
   &::-webkit-scrollbar { display: none; }
+}
+
+.metodo-phrase {
+  font-size: 3.75rem;
+  line-height: 1.12;
+  letter-spacing: 0;
+  text-shadow: var(--metodo-text-shadow);
+  text-wrap: balance;
+}
+.metodo-phrase-final { font-size: 4.25rem; }
+.metodo-logo { animation: metodo-float 4s ease-in-out infinite; }
+.metodo-logo > svg { width: 6rem; height: 6rem; }
+.metodo-logo > span > span:first-child { font-size: 2.75rem; }
+.metodo-logo > span > span:last-child { font-size: 0.875rem; }
+@keyframes metodo-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@media (max-width: 767px) {
+  .metodo-phrase { font-size: 2rem; }
+  .metodo-phrase-final { font-size: 1.375rem; }
+  .metodo-phrase-final > span:last-child { font-size: 1.9rem; margin-top: 0.4rem; }
+  .metodo-logo > svg { width: 4rem; height: 4rem; }
+  .metodo-logo > span > span:first-child { font-size: 2rem; }
+  .metodo-logo > span > span:last-child { font-size: 0.65rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .metodo-logo { animation: none; }
 }
