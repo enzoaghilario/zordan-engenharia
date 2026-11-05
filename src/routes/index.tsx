@@ -139,13 +139,13 @@ function Manifesto() {
             <SplitWords text="ideias em obras" className="italic text-accent" />
             <SplitWords text="que atravessam o tempo." />
           </h2>
-          <div className="mt-12 grid gap-0 border-t border-border sm:grid-cols-3 md:mt-20">
+          <div className="no-scrollbar -mx-6 mt-12 flex snap-x snap-mandatory gap-0 overflow-x-auto border-t border-border px-6 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 md:mt-20">
             {[
               ["Precisão", "Cada etapa medida, verificada e documentada."],
               ["Solidez", "Bases sólidas — no concreto e nas relações."],
               ["Permanência", "Obras pensadas para gerações, não para estações."],
             ].map(([t, d], i) => (
-              <Reveal key={t} delay={i * 0.12} className="border-b border-border py-8 sm:border-b-0 min-w-0 sm:border-r sm:pr-5 sm:last:border-r-0 sm:[&:not(:first-child)]:pl-5 xl:pr-8 xl:[&:not(:first-child)]:pl-8">
+              <Reveal key={t} delay={i * 0.12} className="w-[62vw] shrink-0 snap-start border-r border-border py-8 pr-5 [&:not(:first-child)]:pl-5 last:border-r-0 sm:w-auto sm:shrink min-w-0 sm:border-r sm:pr-5 sm:last:border-r-0 sm:[&:not(:first-child)]:pl-5 xl:pr-8 xl:[&:not(:first-child)]:pl-8">
                 <p className="label-mono mb-4 text-accent">0{i + 1}</p>
                 <h3 className="display mb-3 text-2xl text-primary [overflow-wrap:anywhere] lg:text-[1.65rem] xl:text-3xl">{t}</h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">{d}</p>
@@ -155,7 +155,7 @@ function Manifesto() {
         </div>
         <div className="relative md:col-span-5">
           <motion.div style={{ y: frameY }} className="absolute -left-6 top-16 hidden h-[80%] w-[85%] border border-accent md:block" />
-          <div className="relative aspect-[3/4] overflow-hidden">
+          <div className="relative aspect-[16/10] overflow-hidden md:aspect-[3/4]">
             <motion.img src={detalhe} alt="Detalhe de fachada em travertino e madeira" loading="lazy" width={1024} height={1344} style={{ y: imgY, scale: 1.25 }} className="h-full w-full object-cover" />
           </div>
           <p className="label-mono mt-6 text-muted-foreground">Travertino · Madeira · Concreto aparente</p>
@@ -340,12 +340,12 @@ function Metodo() {
           <p className="label-mono text-primary">(03) — Método</p>
           <h2 className="display mobile-heading text-[clamp(2.75rem,6vw,6rem)] text-primary">Quatro tempos. <span className="italic text-accent">Nenhum improviso.</span></h2>
         </div>
-        <div className="grid border-t border-primary md:grid-cols-4">
+        <div className="grid grid-cols-2 border-t border-primary md:grid-cols-4">
           {steps.map(([t, d], i) => (
-            <Reveal key={t} delay={i * 0.1} className="group relative min-w-0 border-b border-border py-8 md:border-b-0 md:border-r md:px-8 md:py-12 md:first:pl-0 md:last:border-r-0">
-              <span className="display block text-6xl text-outline transition-colors duration-700 group-hover:text-accent md:text-[7rem]">{i + 1}</span>
-              <h3 className="display mt-4 text-3xl text-primary md:mt-6 md:text-4xl">{t}</h3>
-              <p className="mt-4 max-w-xs leading-relaxed text-muted-foreground">{d}</p>
+            <Reveal key={t} delay={i * 0.1} className="group relative min-w-0 border-b border-border py-6 odd:border-r odd:pr-4 even:pl-4 md:odd:pr-0 md:even:pl-0 md:border-b-0 md:border-r md:px-8 md:py-12 md:first:pl-0 md:last:border-r-0">
+              <span className="display block text-5xl text-outline transition-colors duration-700 group-hover:text-accent md:text-[7rem]">{i + 1}</span>
+              <h3 className="display mt-3 text-2xl text-primary md:mt-6 md:text-4xl">{t}</h3>
+              <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground md:mt-4 md:text-base">{d}</p>
               <span className="absolute left-0 top-0 h-[3px] w-0 bg-accent transition-all duration-700 group-hover:w-full" />
             </Reveal>
           ))}
@@ -378,7 +378,7 @@ function Patrocinio() {
             Acompanhe o atleta ↗
           </a>
         </div>
-        <div className="patrocinio-gallery relative grid grid-cols-2 items-start gap-4 md:block md:h-[620px]">
+        <div className="patrocinio-gallery relative grid grid-cols-3 items-start gap-4 md:block md:h-[620px]">
           {[[patrocinio[1]!, y1, "left-0 top-10 w-[52%] z-10"], [patrocinio[0]!, y2, "right-0 top-0 w-[56%]"], [patrocinio[3]!, y3, "left-[22%] bottom-0 w-[44%] z-20"]].map(([p, y, cls], i) => (
             <motion.a key={i} href={(p as Post).url} target="_blank" rel="noreferrer" style={{ y: y as never }} className={`patrocinio-image absolute block shadow-[0_40px_80px_-20px_oklch(0_0_0/0.6)] ${cls as string}`}>
               <img src={(p as Post).img} alt={(p as Post).title} loading="lazy" className="aspect-[4/5] w-full object-cover" />
@@ -407,7 +407,19 @@ function Novidades() {
           </div>
           <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="label-mono w-fit border-b border-primary py-3 text-primary md:pb-1 md:pt-0">@zordanengenharia ↗</a>
         </div>
-        <ul className="border-t border-primary" onMouseLeave={() => setHover(null)}>
+        <div className="no-scrollbar -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 md:hidden">
+          {list.map((p, i) => (
+            <a key={p.url + i} href={p.url} target="_blank" rel="noreferrer" className="w-[64vw] shrink-0 snap-start">
+              <div className="relative aspect-[4/5] overflow-hidden bg-muted">
+                <img src={p.img} alt={p.title} loading="lazy" className="h-full w-full object-cover" />
+                <span className="label-mono absolute left-3 top-3 bg-background/85 px-2 py-1 text-primary">{String(i + 1).padStart(2, "0")}</span>
+              </div>
+              <p className="label-mono mt-4 text-muted-foreground">{p.tag} · {p.date}</p>
+              <p className="display mt-2 text-xl leading-tight text-primary [overflow-wrap:anywhere]">{p.title}</p>
+            </a>
+          ))}
+        </div>
+        <ul className="hidden border-t border-primary md:block" onMouseLeave={() => setHover(null)}>
           {list.map((p, i) => (
             <li key={p.url + i}>
               <a href={p.url} target="_blank" rel="noreferrer" onMouseEnter={() => setHover(i)} className="group grid grid-cols-[2rem_minmax(0,1fr)] items-start gap-x-3 gap-y-2 border-b border-border py-6 transition-colors duration-500 hover:bg-primary hover:text-primary-foreground md:grid-cols-[6rem_minmax(0,1fr)_14rem_10rem] md:items-center md:gap-6 md:px-4 md:py-8">
@@ -444,9 +456,9 @@ function Footer() {
             <span className="inline-block transition-transform duration-700 group-hover:translate-x-6 group-hover:-translate-y-6"> ↗</span>
           </a>
         </Reveal>
-        <div className="mt-12 grid gap-8 border-t border-forest-line py-10 [&>*]:min-w-0 md:mt-24 md:grid-cols-4 md:gap-10 md:py-12">
-          <Logo />
-          <div>
+        <div className="mt-12 grid grid-cols-2 gap-8 border-t border-forest-line py-10 [&>*]:min-w-0 md:mt-24 md:grid-cols-4 md:gap-10 md:py-12">
+          <div className="col-span-2 md:col-span-1"><Logo /></div>
+          <div className="col-span-2 md:col-span-1">
             <p className="label-mono mb-3 text-bone/40">Instagram</p>
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-accent">@zordanengenharia</a>
             <p className="label-mono mb-3 mt-6 text-bone/40">WhatsApp</p>
@@ -461,7 +473,7 @@ function Footer() {
             <p className="label-mono mb-3 text-bone/40">Atuação</p>
             <p className="text-bone/80">Residencial · Infraestrutura · Loteamentos</p>
           </div>
-          <p className="label-mono text-bone/40 md:text-right">© {new Date().getFullYear()} Zordan Engenharia</p>
+          <p className="label-mono self-end text-right text-bone/40">© {new Date().getFullYear()} Zordan Engenharia</p>
         </div>
       </div>
       <p className="display pointer-events-none select-none pb-6 text-center text-[24vw] leading-[1.15] text-bone/[0.06]">ZORDAN</p>
