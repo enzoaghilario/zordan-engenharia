@@ -400,8 +400,9 @@ function Novidades() {
 
 function Footer() {
   return (
-    <footer className="grain relative overflow-hidden bg-forest-deep pt-32 text-bone">
+    <footer className="grain relative overflow-hidden bg-forest-deep text-bone">
       <div className="mx-auto max-w-[1600px] px-6 md:px-12">
+        <div aria-hidden="true" className="border-t border-forest-line pb-32" />
         <Reveal>
           <p className="label-mono mb-8 text-accent">Vamos construir</p>
           <a href="https://wa.me/5516991078596" target="_blank" rel="noreferrer" className="group display block text-[clamp(3rem,8vw,9rem)]">
