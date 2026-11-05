@@ -3,6 +3,9 @@ import { motion, useScroll, useTransform, useMotionValue, useSpring } from "moti
 import { useRef, useState, useEffect } from "react";
 import hero from "@/assets/hero-residencia.jpg";
 import detalhe from "@/assets/detalhe-fachada.jpg";
+import videoDesktop from "@/assets/video/obras-desktop.mp4.asset.json";
+import videoMobile from "@/assets/video/obras-mobile.mp4.asset.json";
+import videoPoster from "@/assets/video/obras-poster.jpg";
 import { Logo, ZordanMark } from "@/components/site/Logo";
 import { Reveal, SplitWords } from "@/components/site/Reveal";
 import { INSTAGRAM_URL, obras, patrocinio, datas, type Post } from "@/lib/instagram";
@@ -164,7 +167,7 @@ function Manifesto() {
   );
 }
 
-function ObraCard({ p, i }: { p: Post; i: number }) {
+function ObraCard({ p, i, mobile = false }: { p: Post; i: number; mobile?: boolean }) {
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const rx = useSpring(useTransform(my, [-0.5, 0.5], [8, -8]), { stiffness: 150, damping: 18 });
@@ -181,7 +184,7 @@ function ObraCard({ p, i }: { p: Post; i: number }) {
       }}
       onMouseLeave={() => { mx.set(0); my.set(0); }}
       style={{ rotateX: rx, rotateY: ry, transformPerspective: 1200 }}
-      className={`group relative block w-[78vw] shrink-0 sm:w-[46vw] lg:w-[30vw] ${i % 2 ? "mt-24" : ""}`}
+      className={mobile ? "group relative block" : `group relative block w-[46vw] shrink-0 lg:w-[30vw] ${i % 2 ? "mt-24" : ""}`}
     >
       <div className="relative aspect-[4/5] overflow-hidden bg-forest">
         <img src={p.img} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-[1.6s] ease-out group-hover:scale-110" />
@@ -200,33 +203,113 @@ function ObraCard({ p, i }: { p: Post; i: number }) {
   );
 }
 
+function ObrasMobile() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+  const total = obras.length + 1;
+  return (
+    <div className="md:hidden">
+      <div
+        ref={ref}
+        onScroll={(e) => {
+          const el = e.currentTarget;
+          const card = el.firstElementChild as HTMLElement | null;
+          if (!card) return;
+          setActive(Math.min(total - 1, Math.round(el.scrollLeft / (card.offsetWidth + 20))));
+        }}
+        className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-px-6 px-6 pb-4"
+      >
+        {obras.map((p, i) => (
+          <div key={p.url} className="w-[82vw] shrink-0 snap-start">
+            <ObraCard p={p} i={i} mobile />
+          </div>
+        ))}
+        <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="flex w-[82vw] shrink-0 snap-start flex-col justify-center border-l border-forest-line pl-8">
+          <span className="label-mono mb-6 text-accent">Acompanhe</span>
+          <span className="display text-5xl">Todas as obras no Instagram ↗</span>
+        </a>
+      </div>
+      <div className="mt-6 flex justify-center gap-2" aria-hidden>
+        {Array.from({ length: total }).map((_, i) => (
+          <span key={i} className={`h-px transition-all duration-500 ${i === active ? "w-8 bg-accent" : "w-3 bg-bone/30"}`} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Obras() {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-62%"]);
   const progress = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const header = (
+    <div className="mx-auto mb-12 flex w-full max-w-[1600px] items-end justify-between px-6 md:px-12">
+      <div>
+        <p className="label-mono mb-6 text-accent">(02) — Canteiro</p>
+        <h2 className="display text-[clamp(3rem,7vw,7rem)]">Obras <span className="italic text-accent">em curso</span></h2>
+      </div>
+      <div className="hidden w-64 md:block">
+        <p className="label-mono mb-3 text-bone/50">Direto do @zordanengenharia</p>
+        <div className="h-px w-full bg-forest-line"><motion.div style={{ width: progress }} className="h-px bg-accent" /></div>
+      </div>
+    </div>
+  );
   return (
-    <section id="obras" ref={ref} className="relative h-[320vh] bg-forest text-bone">
-      <div className="grain sticky top-0 flex h-svh flex-col justify-center overflow-hidden">
-        <div className="mx-auto mb-12 flex w-full max-w-[1600px] items-end justify-between px-6 md:px-12">
-          <div>
-            <p className="label-mono mb-6 text-accent">(02) — Canteiro</p>
-            <h2 className="display text-[clamp(3rem,7vw,7rem)]">Obras <span className="italic text-accent">em curso</span></h2>
-          </div>
-          <div className="hidden w-64 md:block">
-            <p className="label-mono mb-3 text-bone/50">Direto do @zordanengenharia</p>
-            <div className="h-px w-full bg-forest-line"><motion.div style={{ width: progress }} className="h-px bg-accent" /></div>
-          </div>
+    <section id="obras" className="relative bg-forest text-bone">
+      {/* Mobile: carrossel nativo, sem travar a rolagem */}
+      <div className="grain py-24 md:hidden">
+        {header}
+        <ObrasMobile />
+      </div>
+      {/* Desktop: rolagem vertical vira movimento horizontal (sem bloquear a página) */}
+      <div ref={ref} className="hidden h-[300vh] md:block">
+        <div className="grain sticky top-0 flex h-svh flex-col justify-center overflow-hidden">
+          {header}
+          <motion.div style={{ x }} className="flex gap-16 pl-12 will-change-transform">
+            {obras.map((p, i) => <ObraCard key={p.url} p={p} i={i} />)}
+            <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="group flex w-[30vw] shrink-0 flex-col justify-center border-l border-forest-line pl-12">
+              <span className="label-mono mb-6 text-accent">Acompanhe</span>
+              <span className="display text-6xl transition-colors group-hover:text-accent">Todas as obras no Instagram ↗</span>
+            </a>
+          </motion.div>
         </div>
-        <motion.div style={{ x }} className="flex gap-10 pl-6 md:gap-16 md:pl-12">
-          {obras.map((p, i) => <ObraCard key={p.url} p={p} i={i} />)}
-          <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="group flex w-[60vw] shrink-0 flex-col justify-center border-l border-forest-line pl-12 sm:w-[30vw]">
-            <span className="label-mono mb-6 text-accent">Acompanhe</span>
-            <span className="display text-6xl transition-colors group-hover:text-accent">Todas as obras no Instagram ↗</span>
-          </a>
-        </motion.div>
       </div>
     </section>
+  );
+}
+
+function MetodoVideo() {
+  const ref = useRef<HTMLVideoElement>(null);
+  const [src, setSrc] = useState<string | null>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e?.isIntersecting) {
+          setSrc(window.matchMedia("(max-width: 767px)").matches ? videoMobile.url : videoDesktop.url);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "400px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <video
+      ref={ref}
+      src={src ?? undefined}
+      poster={videoPoster}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      aria-hidden
+      className="absolute inset-0 h-full w-full object-cover"
+    />
   );
 }
 
@@ -238,12 +321,17 @@ function Metodo() {
     ["Entrega", "Vistoria minuciosa, documentação completa e acompanhamento pós-obra."],
   ];
   return (
-    <section id="metodo" className="bg-background py-32 md:py-44">
-      <div className="mx-auto max-w-[1600px] px-6 md:px-12">
-        <div className="mb-24 grid gap-10 md:grid-cols-2">
-          <p className="label-mono text-muted-foreground">(03) — Método</p>
-          <h2 className="display text-[clamp(2.5rem,5vw,5rem)] text-primary">Quatro tempos. <span className="italic text-accent">Nenhum improviso.</span></h2>
+    <section id="metodo" className="bg-background">
+      <div className="grain relative flex min-h-[85svh] items-end overflow-hidden bg-forest-deep text-bone">
+        <MetodoVideo />
+        <div className="absolute inset-0 bg-forest-deep/55 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/30 to-forest-deep/60" />
+        <div className="relative mx-auto grid w-full max-w-[1600px] gap-10 px-6 pb-20 pt-40 md:grid-cols-2 md:px-12">
+          <p className="label-mono text-accent">(03) — Método</p>
+          <h2 className="display text-[clamp(2.75rem,6vw,6rem)]">Quatro tempos. <span className="italic text-accent">Nenhum improviso.</span></h2>
         </div>
+      </div>
+      <div className="mx-auto max-w-[1600px] px-6 py-24 md:px-12 md:py-32">
         <div className="grid border-t border-primary md:grid-cols-4">
           {steps.map(([t, d], i) => (
             <Reveal key={t} delay={i * 0.1} className="group relative border-b border-border py-12 md:border-b-0 md:border-r md:px-8 md:first:pl-0 md:last:border-r-0">
