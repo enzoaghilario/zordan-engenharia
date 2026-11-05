@@ -31,3 +31,4 @@ use the editor.
 
 - Keep the Método film playback and outro lifecycle in its dedicated component, with scene boundaries in a shared pure timeline module so synchronization is independently testable.
 - Measure the desktop Obras track and viewport with ResizeObserver for scroll travel; fixed percentages cannot reliably reveal the final card across viewport sizes.
+- Keep mobile sponsorship images in normal grid flow and the Método film width constrained independently of its aspect ratio, so animations and intrinsic media sizing cannot widen the page.
