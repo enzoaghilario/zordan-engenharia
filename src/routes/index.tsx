@@ -182,9 +182,9 @@ function ObraCard({ p, i, mobile = false }: { p: Post; i: number; mobile?: boole
       }}
       onMouseLeave={() => { mx.set(0); my.set(0); }}
       style={{ rotateX: rx, rotateY: ry, transformPerspective: 1200 }}
-      className={mobile ? "group relative block" : `group relative block w-[46vw] shrink-0 lg:w-[30vw] ${i % 2 ? "mt-24" : ""}`}
+      className={mobile ? "group relative block" : `group relative block w-[min(36vw,40svh)] shrink-0 ${i % 2 ? "mt-10" : ""}`}
     >
-      <div className="relative aspect-[4/5] overflow-hidden bg-forest">
+      <div className={mobile ? "relative aspect-[4/5] overflow-hidden bg-forest" : "relative h-[32svh] overflow-hidden bg-forest"}>
         <img src={p.img} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-[1.6s] ease-out group-hover:scale-110" />
         <div className="absolute inset-0 bg-gradient-to-t from-forest-deep/90 via-transparent to-transparent" />
         {p.video && <span className="label-mono absolute right-5 top-5 border border-bone/40 px-3 py-1.5 text-bone backdrop-blur-sm">▶ Reel</span>}
@@ -193,7 +193,7 @@ function ObraCard({ p, i, mobile = false }: { p: Post; i: number; mobile?: boole
       <div className="mt-6 flex items-start justify-between gap-6 border-t border-forest-line pt-5">
         <div>
           <p className="label-mono mb-2 text-accent">{p.tag}</p>
-          <h3 className="display text-3xl">{p.title}</h3>
+          <h3 className={mobile ? "display text-3xl" : "display text-2xl"}>{p.title}</h3>
         </div>
         <span className="label-mono whitespace-nowrap text-bone/50">{p.date}</span>
       </div>
@@ -238,8 +238,22 @@ function ObrasMobile() {
 
 function Obras() {
   const ref = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [travel, setTravel] = useState(0);
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    const track = trackRef.current;
+    if (!viewport || !track) return;
+    const measure = () => setTravel(Math.max(0, track.scrollWidth - viewport.clientWidth));
+    const observer = new ResizeObserver(measure);
+    observer.observe(viewport);
+    observer.observe(track);
+    measure();
+    return () => observer.disconnect();
+  }, []);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-62%"]);
+  const x = useTransform(scrollYProgress, [0, 1], [0, -travel]);
   const progress = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
   const header = (
     <div className="mx-auto mb-12 flex w-full max-w-[1600px] items-end justify-between px-6 md:px-12">
@@ -262,9 +276,9 @@ function Obras() {
       </div>
       {/* Desktop: rolagem vertical vira movimento horizontal (sem bloquear a página) */}
       <div ref={ref} className="hidden h-[300vh] md:block">
-        <div className="grain sticky top-0 flex h-svh flex-col justify-center overflow-hidden">
+        <div ref={viewportRef} className="grain sticky top-0 flex h-svh flex-col justify-center overflow-hidden pt-24 pb-8">
           {header}
-          <motion.div style={{ x }} className="flex gap-16 pl-12 will-change-transform">
+          <motion.div ref={trackRef} style={{ x }} className="flex w-max shrink-0 gap-16 px-12 will-change-transform">
             {obras.map((p, i) => <ObraCard key={p.url} p={p} i={i} />)}
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="group flex w-[30vw] shrink-0 flex-col justify-center border-l border-forest-line pl-12">
               <span className="label-mono mb-6 text-accent">Acompanhe</span>

@@ -30,3 +30,4 @@ use the editor.
 <!-- LOVABLE:END -->
 
 - Keep the Método film playback and outro lifecycle in its dedicated component, with scene boundaries in a shared pure timeline module so synchronization is independently testable.
+- Measure the desktop Obras track and viewport with ResizeObserver for scroll travel; fixed percentages cannot reliably reveal the final card across viewport sizes.
