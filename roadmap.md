@@ -7,3 +7,7 @@
 # Organização e contato
 - [x] Trocar Diário de obra e Além da obra de posição e atualizar a numeração.
 - [x] Adicionar WhatsApp com símbolo no rodapé e conferir no computador e celular.
+
+# Versão de celular
+- [x] Ajustar encaixe de textos, navegação, obras, vídeo, novidades, patrocínio e rodapé.
+- [x] Conferir rolagem, carrossel e vídeo em telas de 320 a 430px, preservando o computador.
