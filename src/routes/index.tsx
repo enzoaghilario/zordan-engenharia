@@ -300,11 +300,11 @@ function Obras() {
   );
   return (
     <section id="obras" className="relative bg-forest text-bone">
+      <AnimatePresence>{open && <ReelModal key={open.url} p={open} onClose={() => setOpen(null)} />}</AnimatePresence>
       {/* Mobile: carrossel nativo, sem travar a rolagem */}
       <div className="grain py-20 md:hidden">
         {header}
         <ObrasMobile onOpen={setOpen} />
-        <AnimatePresence>{open && <ReelModal key={open.url} p={open} onClose={() => setOpen(null)} />}</AnimatePresence>
       </div>
       {/* Desktop: rolagem vertical vira movimento horizontal (sem bloquear a página) */}
       <div ref={ref} className="hidden h-[300vh] md:block">
