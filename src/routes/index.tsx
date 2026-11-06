@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import hero from "@/assets/hero-residencia.jpg";
 import detalhe from "@/assets/detalhe-fachada.jpg";
 import { MetodoVideo } from "@/components/site/MetodoVideo";
-import { Logo, ZordanMark } from "@/components/site/Logo";
+import { Logo } from "@/components/site/Logo";
 import { Reveal, SplitWords } from "@/components/site/Reveal";
 import { INSTAGRAM_URL, obras, patrocinio, datas, type Post } from "@/lib/instagram";
 
