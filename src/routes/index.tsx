@@ -108,22 +108,6 @@ function Hero() {
   );
 }
 
-function Marquee() {
-  const words = ["Residências", "Infraestrutura", "Loteamentos", "Terraplenagem", "Fundações", "Gestão de obra"];
-  return (
-    <div className="overflow-hidden border-y border-border bg-background py-8">
-      <div className="animate-marquee flex w-max gap-16 whitespace-nowrap">
-        {[...words, ...words, ...words, ...words].map((w, i) => (
-          <span key={i} className="display flex items-center gap-16 text-6xl text-primary md:text-7xl">
-            <span className={i % 2 ? "italic" : ""}>{w}</span>
-            <ZordanMark className="h-8 w-8 text-accent" />
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 function Manifesto() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
