@@ -493,7 +493,7 @@ function Index() {
     <main className="bg-background">
       <Nav />
       <Hero />
-      <Marquee />
+      <ParceriaMarquee light />
       <Manifesto />
       <ParceriaMarquee light />
       <Obras />
