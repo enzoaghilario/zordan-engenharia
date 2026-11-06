@@ -489,6 +489,7 @@ function Index() {
       <Hero />
       <Marquee />
       <Manifesto />
+      <Marquee />
       <Obras />
       <Metodo />
       <Novidades />
