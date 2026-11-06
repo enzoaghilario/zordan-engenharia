@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import hero from "@/assets/hero-residencia.jpg";
 import detalhe from "@/assets/detalhe-fachada.jpg";
 import { MetodoVideo } from "@/components/site/MetodoVideo";
-import { Logo, ZordanMark } from "@/components/site/Logo";
+import { Logo } from "@/components/site/Logo";
 import { Reveal, SplitWords } from "@/components/site/Reveal";
 import { INSTAGRAM_URL, obras, patrocinio, datas, type Post } from "@/lib/instagram";
 
@@ -105,22 +105,6 @@ function Hero() {
         </motion.div>
       </motion.div>
     </section>
-  );
-}
-
-function Marquee() {
-  const words = ["Residências", "Infraestrutura", "Loteamentos", "Terraplenagem", "Fundações", "Gestão de obra"];
-  return (
-    <div className="overflow-hidden border-y border-border bg-background py-8">
-      <div className="animate-marquee flex w-max gap-16 whitespace-nowrap">
-        {[...words, ...words, ...words, ...words].map((w, i) => (
-          <span key={i} className="display flex items-center gap-16 text-6xl text-primary md:text-7xl">
-            <span className={i % 2 ? "italic" : ""}>{w}</span>
-            <ZordanMark className="h-8 w-8 text-accent" />
-          </span>
-        ))}
-      </div>
-    </div>
   );
 }
 
@@ -493,7 +477,7 @@ function Index() {
     <main className="bg-background">
       <Nav />
       <Hero />
-      <Marquee />
+      <ParceriaMarquee light />
       <Manifesto />
       <ParceriaMarquee light />
       <Obras />
