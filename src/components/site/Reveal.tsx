@@ -1,5 +1,5 @@
-import { motion } from "motion/react";
-import type { ReactNode } from "react";
+import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
+import { useRef, type ReactNode } from "react";
 
 export function Reveal({ children, delay = 0, className = "" }: { children: ReactNode; delay?: number; className?: string }) {
   return (
@@ -33,4 +33,32 @@ export function SplitWords({ text, className = "" }: { text: string; className?:
       ))}
     </span>
   );
+}
+
+/**
+ * Título que "acende" palavra por palavra conforme a rolagem
+ * (o texto já está na página — só a opacidade acompanha o scroll).
+ */
+export function ScrollWords({ lines }: { lines: { text: string; className?: string }[] }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.85", "end 0.5"] });
+  const total = lines.reduce((n, l) => n + l.text.split(" ").length, 0);
+  let index = 0;
+  return (
+    <span ref={ref} className="block">
+      {lines.map((line, li) => (
+        <span key={li} className={line.className}>
+          {line.text.split(" ").map((word) => {
+            const i = index++;
+            return <ScrollWord key={i} progress={scrollYProgress} range={[i / total, (i + 1) / total]}>{word}</ScrollWord>;
+          })}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+function ScrollWord({ children, progress, range }: { children: string; progress: MotionValue<number>; range: [number, number] }) {
+  const opacity = useTransform(progress, range, [0.16, 1]);
+  return <motion.span style={{ opacity }} className="inline-block">{children}&nbsp;</motion.span>;
 }
