@@ -1,11 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AnimatePresence, motion, useScroll, useTransform, useMotionValue, useSpring } from "motion/react";
+import { AnimatePresence, motion, useScroll, useTransform, useMotionValue, useSpring, useVelocity, useReducedMotion, type MotionValue } from "motion/react";
 import { useRef, useState, useEffect } from "react";
 import hero from "@/assets/hero-residencia.jpg";
 import detalhe from "@/assets/detalhe-fachada.jpg";
 import { MetodoVideo } from "@/components/site/MetodoVideo";
+import { MetodoConstrucao } from "@/components/site/MetodoConstrucao";
 import { Logo } from "@/components/site/Logo";
-import { Reveal, SplitWords } from "@/components/site/Reveal";
+import { Nav } from "@/components/site/Nav";
+import { Intro, INTRO_DELAY } from "@/components/site/Intro";
+import { ParceriaMarquee } from "@/components/site/ParceriaMarquee";
+import { WhatsAppIcon, WHATSAPP_URL } from "@/components/site/Icons";
+import { useMagnetic } from "@/components/site/Magnetic";
+import { Reveal, ScrollWords } from "@/components/site/Reveal";
+import { lockScroll, startSmoothScroll } from "@/lib/smooth-scroll";
 import { INSTAGRAM_URL, obras, patrocinio, datas, type Post } from "@/lib/instagram";
 
 export const Route = createFileRoute("/")({
@@ -24,36 +31,6 @@ export const Route = createFileRoute("/")({
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
-function Nav() {
-  const [solid, setSolid] = useState(false);
-  useEffect(() => {
-    const on = () => setSolid(window.scrollY > 80);
-    on();
-    window.addEventListener("scroll", on, { passive: true });
-    return () => window.removeEventListener("scroll", on);
-  }, []);
-  return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 text-bone transition-all duration-700 ${solid ? "border-b border-forest-line bg-forest-deep/80 py-4 backdrop-blur-xl" : "py-7"}`}
-    >
-      <div className="mx-auto grid max-w-[1600px] grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 sm:flex sm:justify-between sm:px-6 md:px-12">
-        <a href="#topo" aria-label="Zordan Engenharia — início" className="min-w-0 min-h-11 content-center"><Logo className="nav-logo" /></a>
-        <nav className="label-mono hidden gap-10 md:flex">
-          {[["Manifesto", "#manifesto"], ["Obras", "#obras"], ["Método", "#metodo"], ["Novidades", "#novidades"]].map(([l, h]) => (
-            <a key={h} href={h} className="group relative py-1">
-              {l}
-              <span className="absolute bottom-0 left-0 h-px w-0 bg-accent transition-all duration-500 group-hover:w-full" />
-            </a>
-          ))}
-        </nav>
-        <a href="https://wa.me/5516991078596" target="_blank" rel="noreferrer" className="label-mono flex min-h-11 shrink-0 items-center whitespace-nowrap border-b border-accent pb-1 text-accent transition-colors hover:text-bone">
-          Fale conosco ↗
-        </a>
-      </div>
-    </header>
-  );
-}
-
 function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
@@ -61,42 +38,67 @@ function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-60%"]);
   const fade = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  // Profundidade: a foto e o texto se movem em sentidos opostos com o mouse.
+  const mx = useSpring(0, { stiffness: 60, damping: 20 });
+  const my = useSpring(0, { stiffness: 60, damping: 20 });
+  const imgX = useTransform(mx, (v) => v * -26);
+  const imgY = useTransform(my, (v) => v * -18);
+  const titleX = useTransform(mx, (v) => v * 14);
+  const titleY = useTransform(my, (v) => v * 8);
+  const d = INTRO_DELAY;
   return (
-    <section id="topo" ref={ref} className="grain relative min-h-svh overflow-hidden bg-forest-deep text-bone">
-      <motion.img
-        src={hero}
-        alt="Residência de alto padrão ao entardecer"
-        width={1920}
-        height={1088}
-        style={{ scale, y }}
-        className="absolute inset-0 h-full w-full object-cover opacity-80"
-      />
+    <section
+      id="topo"
+      ref={ref}
+      onPointerMove={(e) => {
+        if (e.pointerType !== "mouse") return;
+        mx.set(e.clientX / window.innerWidth - 0.5);
+        my.set(e.clientY / window.innerHeight - 0.5);
+      }}
+      className="grain relative min-h-svh overflow-hidden bg-forest-deep text-bone"
+    >
+      <motion.div
+        initial={{ clipPath: "inset(12% 10% 12% 10%)", opacity: 0.4 }}
+        animate={{ clipPath: "inset(0% 0% 0% 0%)", opacity: 1 }}
+        transition={{ duration: 1.6, delay: d - 0.35, ease }}
+        style={{ x: imgX, y: imgY }}
+        className="absolute -inset-8"
+      >
+        <motion.img
+          src={hero}
+          alt="Residência de alto padrão ao entardecer"
+          width={1920}
+          height={1088}
+          style={{ scale, y }}
+          className="h-full w-full object-cover opacity-80"
+        />
+      </motion.div>
       <div className="absolute inset-0 bg-gradient-to-r from-forest-deep via-forest-deep/60 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-transparent to-forest-deep/50" />
 
-      <motion.div style={{ y: textY, opacity: fade }} className="relative mx-auto flex min-h-svh max-w-[1600px] flex-col justify-end px-6 pb-12 pt-36 md:px-12 md:pb-14">
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 1 }} className="label-mono mb-6 flex items-center gap-4 text-accent">
+      <motion.div style={{ y: textY, opacity: fade }} className="relative mx-auto flex min-h-svh max-w-[1600px] flex-col justify-end px-6 pb-[max(3rem,env(safe-area-inset-bottom))] pt-36 md:px-12 md:pb-14">
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: d + 0.3, duration: 1 }} className="label-mono mb-6 flex items-center gap-4 text-accent">
           <span className="h-px w-8 shrink-0 bg-accent md:w-16" /> Engenharia de alto padrão
         </motion.p>
-        <h1 className="display hero-title max-w-6xl">
+        <motion.h1 style={{ x: titleX, y: titleY }} className="display hero-title max-w-6xl">
           {["Construímos", "o que", "permanece."].map((l, i) => (
             <span key={l} className="block overflow-hidden pb-[0.06em]">
               <motion.span
                 className={`block ${i === 1 ? "pl-[12vw] italic text-accent" : ""}`}
-                initial={{ y: "105%" }}
-                animate={{ y: 0 }}
-                transition={{ duration: 1.4, delay: 0.4 + i * 0.15, ease }}
+                initial={{ y: "105%", rotate: 4 }}
+                animate={{ y: 0, rotate: 0 }}
+                transition={{ duration: 1.4, delay: d + 0.15 + i * 0.13, ease }}
               >
                 {l}
               </motion.span>
             </span>
           ))}
-        </h1>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.3, duration: 1 }} className="mt-8 grid gap-6 border-t border-forest-line pt-6 md:grid-cols-[1fr_auto]">
+        </motion.h1>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: d + 0.9, duration: 1, ease }} className="mt-8 grid gap-6 border-t border-forest-line pt-6 md:grid-cols-[1fr_auto]">
           <p className="max-w-md text-base font-light leading-relaxed text-bone/75 md:text-lg">
             Do movimento de terra à última pedra do acabamento — projetos executados com rigor técnico e a calma de quem constrói para gerações.
           </p>
-          <a href="#obras" className="label-mono flex items-center gap-4 self-end">
+          <a href="#obras" className="label-mono flex min-h-11 items-center gap-4 self-end">
             Ver obras
             <span className="relative block h-12 w-px overflow-hidden bg-forest-line">
               <motion.span className="absolute left-0 top-0 h-4 w-px bg-accent" animate={{ y: [-16, 48] }} transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }} />
@@ -113,15 +115,22 @@ function Manifesto() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const imgY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
   const frameY = useTransform(scrollYProgress, [0, 1], [120, -120]);
+  // A foto "abre" como uma janela enquanto entra na tela.
+  const clip = useTransform(scrollYProgress, [0.05, 0.4], ["inset(22% 16% 22% 16%)", "inset(0% 0% 0% 0%)"]);
+  const imgScale = useTransform(scrollYProgress, [0.05, 0.4], [1.5, 1.22]);
   return (
     <section id="manifesto" ref={ref} className="relative overflow-hidden bg-background py-20 md:py-48">
       <div className="mx-auto grid max-w-[1600px] gap-12 px-6 md:grid-cols-12 md:gap-20 md:px-12">
         <div className="md:col-span-7">
           <p className="label-mono mb-10 text-muted-foreground">(01) — Manifesto</p>
           <h2 className="display mobile-heading text-[clamp(2.5rem,6vw,6rem)] text-primary">
-            <SplitWords text="Engenharia é a arte de transformar" />
-            <SplitWords text="ideias em obras" className="italic text-accent" />
-            <SplitWords text="que atravessam o tempo." />
+            <ScrollWords
+              lines={[
+                { text: "Engenharia é a arte de transformar" },
+                { text: "ideias em obras", className: "italic text-accent" },
+                { text: "que atravessam o tempo." },
+              ]}
+            />
           </h2>
           <div className="mt-12 grid border-t border-border sm:grid-cols-3 md:mt-20">
             {[
@@ -139,9 +148,9 @@ function Manifesto() {
         </div>
         <div className="relative md:col-span-5">
           <motion.div style={{ y: frameY }} className="absolute -left-6 top-16 hidden h-[80%] w-[85%] border border-accent md:block" />
-          <div className="relative aspect-[3/4] overflow-hidden">
-            <motion.img src={detalhe} alt="Detalhe de fachada em travertino e madeira" loading="lazy" width={1024} height={1344} style={{ y: imgY, scale: 1.25 }} className="h-full w-full object-cover" />
-          </div>
+          <motion.div style={{ clipPath: clip }} className="relative aspect-[3/4] overflow-hidden">
+            <motion.img src={detalhe} alt="Detalhe de fachada em travertino e madeira" loading="lazy" width={1024} height={1344} style={{ y: imgY, scale: imgScale }} className="h-full w-full object-cover" />
+          </motion.div>
           <p className="label-mono mt-6 text-muted-foreground">Travertino · Madeira · Concreto aparente</p>
         </div>
       </div>
@@ -159,16 +168,16 @@ function ReelModal({ p, onClose }: { p: Post; onClose: () => void }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", onKey);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => { window.removeEventListener("keydown", onKey); document.body.style.overflow = prev; };
+    lockScroll(true);
+    return () => { window.removeEventListener("keydown", onKey); lockScroll(false); };
   }, [onClose]);
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       role="dialog" aria-modal="true" aria-label={p.title}
       onClick={onClose}
       className="fixed inset-0 z-[100] flex items-center justify-center bg-forest-deep/95 p-4 backdrop-blur-sm">
-      <div onClick={(e) => e.stopPropagation()} className="relative flex h-[min(88svh,820px)] w-[min(92vw,420px)] flex-col">
+      <motion.div initial={{ y: 40, scale: 0.96 }} animate={{ y: 0, scale: 1 }} exit={{ y: 20, scale: 0.98 }} transition={{ duration: 0.5, ease }}
+        onClick={(e) => e.stopPropagation()} className="relative flex h-[min(88svh,820px)] w-[min(92vw,420px)] flex-col">
         <div className="mb-3 flex items-center justify-between gap-4 text-bone">
           <p className="label-mono min-w-0 truncate text-accent">{p.tag} — {p.title}</p>
           <button type="button" onClick={onClose} aria-label="Fechar vídeo" className="label-mono shrink-0 border border-bone/40 px-3 py-1.5 transition-colors hover:border-accent hover:text-accent">Fechar ✕</button>
@@ -176,12 +185,12 @@ function ReelModal({ p, onClose }: { p: Post; onClose: () => void }) {
         {p.videoSrc ? (
           <video src={p.videoSrc} poster={p.videoPoster} controls autoPlay playsInline preload="auto" className="min-h-0 w-full flex-1 bg-black object-contain" />
         ) : src && <iframe src={src} title={p.title} allow="autoplay; encrypted-media; picture-in-picture; clipboard-write" allowFullScreen className="min-h-0 w-full flex-1 border-0 bg-bone" />}
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
 
-function ObraCard({ p, i, mobile = false, onOpen }: { p: Post; i: number; mobile?: boolean; onOpen: (p: Post) => void }) {
+function ObraCard({ p, i, mobile = false, onOpen, onHover }: { p: Post; i: number; mobile?: boolean; onOpen: (p: Post) => void; onHover?: (on: boolean) => void }) {
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const rx = useSpring(useTransform(my, [-0.5, 0.5], [8, -8]), { stiffness: 150, damping: 18 });
@@ -196,14 +205,15 @@ function ObraCard({ p, i, mobile = false, onOpen }: { p: Post; i: number; mobile
         mx.set((e.clientX - r.left) / r.width - 0.5);
         my.set((e.clientY - r.top) / r.height - 0.5);
       }}
-      onMouseLeave={() => { mx.set(0); my.set(0); }}
+      onMouseEnter={() => onHover?.(true)}
+      onMouseLeave={() => { mx.set(0); my.set(0); onHover?.(false); }}
       style={{ rotateX: rx, rotateY: ry, transformPerspective: 1200 }}
       className={mobile ? "group relative block w-full cursor-pointer text-left" : `group relative block cursor-pointer text-left w-[min(36vw,40svh)] shrink-0 ${i % 2 ? "mt-10" : ""}`}
     >
       <div className={mobile ? "relative aspect-[4/5] overflow-hidden bg-forest" : "relative h-[32svh] overflow-hidden bg-forest"}>
         <img src={p.img} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-[1.6s] ease-out group-hover:scale-110" />
         <div className="absolute inset-0 bg-gradient-to-t from-forest-deep/90 via-transparent to-transparent" />
-        {p.video && <span className="label-mono absolute right-5 top-5 border border-bone/40 px-3 py-1.5 text-bone backdrop-blur-sm">▶ Assistir</span>}
+        {p.video && <span className="label-mono absolute right-5 top-5 border border-bone/40 px-3 py-1.5 text-bone backdrop-blur-sm md:[@media(pointer:fine)]:hidden">▶ Assistir</span>}
         <span className="display absolute -bottom-6 left-4 text-[9rem] text-outline opacity-60">{String(i + 1).padStart(2, "0")}</span>
       </div>
       <div className="mt-6 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3 border-t border-forest-line pt-5">
@@ -234,11 +244,11 @@ function ObrasMobile({ onOpen }: { onOpen: (p: Post) => void }) {
         className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-px-6 px-6 pb-4"
       >
         {obras.map((p, i) => (
-          <div key={p.url} className="w-[82vw] shrink-0 snap-start">
+          <div key={p.url} className={`w-[82vw] shrink-0 snap-start origin-left transition-[opacity,transform] duration-500 ${i === active ? "opacity-100" : "scale-[0.94] opacity-45"}`}>
             <ObraCard p={p} i={i} mobile onOpen={onOpen} />
           </div>
         ))}
-        <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="flex w-[82vw] shrink-0 snap-start flex-col justify-center border-l border-forest-line pl-8">
+        <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className={`flex w-[82vw] shrink-0 snap-start flex-col justify-center border-l border-forest-line pl-8 transition-opacity duration-500 ${active === obras.length ? "opacity-100" : "opacity-45"}`}>
           <span className="label-mono mb-6 text-accent">Acompanhe</span>
           <span className="display text-4xl leading-tight">Todas as obras no Instagram ↗</span>
         </a>
@@ -272,6 +282,16 @@ function Obras() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const x = useTransform(scrollYProgress, [0, 1], [0, -travel]);
   const progress = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  // Os cards "inclinam" com a velocidade da rolagem, como se tivessem peso.
+  const reduced = useReducedMotion();
+  const { scrollY } = useScroll();
+  const skew = useSpring(useTransform(useVelocity(scrollY), [-2500, 2500], reduced ? [0, 0] : [5, -5]), { stiffness: 300, damping: 45 });
+  // Cursor "Assistir" que acompanha o mouse sobre os cards.
+  const [hot, setHot] = useState(false);
+  const cx = useMotionValue(0);
+  const cy = useMotionValue(0);
+  const csx = useSpring(cx, { stiffness: 500, damping: 40 });
+  const csy = useSpring(cy, { stiffness: 500, damping: 40 });
   const header = (
     <div className="mx-auto mb-12 flex w-full max-w-[1600px] items-end justify-between px-6 md:px-12">
       <div>
@@ -293,67 +313,33 @@ function Obras() {
         <ObrasMobile onOpen={setOpen} />
       </div>
       {/* Desktop: rolagem vertical vira movimento horizontal (sem bloquear a página) */}
-      <div ref={ref} className="hidden h-[300vh] md:block">
+      <div ref={ref} className="hidden h-[300vh] md:block" onPointerMove={(e) => { cx.set(e.clientX); cy.set(e.clientY); }}>
         <div ref={viewportRef} className="grain sticky top-0 flex h-svh flex-col justify-center overflow-hidden pt-24 pb-8">
           {header}
-          <motion.div ref={trackRef} style={{ x }} className="flex w-max shrink-0 gap-16 px-12 will-change-transform">
-            {obras.map((p, i) => <ObraCard key={p.url} p={p} i={i} onOpen={setOpen} />)}
+          <motion.div ref={trackRef} style={{ x, skewX: skew }} className="flex w-max shrink-0 gap-16 px-12 will-change-transform">
+            {obras.map((p, i) => <ObraCard key={p.url} p={p} i={i} onOpen={setOpen} onHover={(on) => setHot(on && !!p.video)} />)}
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="group flex w-[30vw] shrink-0 flex-col justify-center border-l border-forest-line pl-12">
               <span className="label-mono mb-6 text-accent">Acompanhe</span>
               <span className="display text-6xl transition-colors group-hover:text-accent">Todas as obras no Instagram ↗</span>
             </a>
           </motion.div>
         </div>
+        <motion.div aria-hidden style={{ left: csx, top: csy }} initial={false}
+          animate={{ scale: hot && !open ? 1 : 0, opacity: hot && !open ? 1 : 0 }} transition={{ duration: 0.3, ease }}
+          className="label-mono pointer-events-none fixed z-[70] grid h-24 w-24 -translate-x-1/2 -translate-y-1/2 place-items-center bg-accent text-center text-forest-deep [@media(pointer:coarse)]:hidden">
+          ▶<br />Assistir
+        </motion.div>
       </div>
     </section>
   );
 }
 
-function ParceriaMarquee({ light = false }: { light?: boolean }) {
-  return (
-    <div className={`w-full min-w-0 overflow-hidden border-y py-5 md:py-7 ${light ? "border-border bg-background text-primary" : "border-forest-line bg-forest-deep text-bone"}`} aria-label="Zordan Engenharia em parceria com o Grupo Kurihara e Figueiredo">
-      <div className="parceria-track animate-marquee flex w-max items-center whitespace-nowrap" aria-hidden>
-        {Array.from({ length: 8 }).map((_, i) => (
-          <span key={i} className="flex items-center gap-6 pr-6 md:gap-10 md:pr-10">
-            <span className={`label-mono ${light ? "text-primary" : "text-accent"}`}>Em parceria com</span>
-            <Logo className="shrink-0" />
-            <span className={`display text-2xl md:text-3xl ${light ? "text-primary" : "text-accent"}`}>×</span>
-            <span className="display text-2xl italic md:text-4xl">Grupo Kurihara <span className={light ? "text-primary" : "text-accent"}>&amp;</span> Figueiredo</span>
-            <span className={light ? "text-primary" : "text-accent"}>✦</span>
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 function Metodo() {
-  const steps = [
-    ["Estudo", "Leitura do terreno, viabilidade técnica e planejamento de custos com total transparência."],
-    ["Projeto", "Compatibilização de estrutura, instalações e arquitetura antes do primeiro metro cúbico."],
-    ["Execução", "Equipe própria, cronograma rigoroso e controle tecnológico em cada etapa."],
-    ["Entrega", "Vistoria minuciosa, documentação completa e acompanhamento pós-obra."],
-  ];
   return (
     <section id="metodo" className="bg-background">
       <MetodoVideo />
       <ParceriaMarquee />
-      <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-12 md:py-32">
-        <div className="mb-12 grid gap-6 md:mb-16 md:grid-cols-2 md:gap-10">
-          <p className="label-mono text-primary">(03) — Método</p>
-          <h2 className="display mobile-heading text-[clamp(2.75rem,6vw,6rem)] text-primary">Quatro tempos. <span className="italic text-accent">Nenhum improviso.</span></h2>
-        </div>
-        <div className="grid grid-cols-2 border-t border-primary md:grid-cols-4">
-          {steps.map(([t, d], i) => (
-            <Reveal key={t} delay={i * 0.1} className="group relative min-w-0 border-b border-border py-6 odd:border-r odd:pr-4 even:pl-4 md:odd:pr-0 md:even:pl-0 md:border-b-0 md:border-r md:px-8 md:py-12 md:first:pl-0 md:last:border-r-0">
-              <span className="display block text-5xl text-outline transition-colors duration-700 group-hover:text-accent md:text-[7rem]">{i + 1}</span>
-              <h3 className="display mt-3 text-3xl text-primary md:mt-6 md:text-4xl">{t}</h3>
-              <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground md:mt-4 md:text-base">{d}</p>
-              <span className="absolute left-0 top-0 h-[3px] w-0 bg-accent transition-all duration-700 group-hover:w-full" />
-            </Reveal>
-          ))}
-        </div>
-      </div>
+      <MetodoConstrucao />
     </section>
   );
 }
@@ -413,11 +399,12 @@ function Novidades() {
         <ul className="border-t border-primary" onMouseLeave={() => setHover(null)}>
           {list.map((p, i) => (
             <li key={p.url + i}>
-              <a href={p.url} target="_blank" rel="noreferrer" onMouseEnter={() => setHover(i)} className="group grid grid-cols-[2rem_minmax(0,1fr)] items-start gap-x-3 gap-y-2 border-b border-border py-6 transition-colors duration-500 hover:bg-primary hover:text-primary-foreground md:grid-cols-[6rem_minmax(0,1fr)_14rem_10rem] md:items-center md:gap-6 md:px-4 md:py-8">
-                <span className="label-mono text-muted-foreground group-hover:text-accent">{String(i + 1).padStart(2, "0")}</span>
-                <span className="display min-w-0 text-2xl leading-tight [overflow-wrap:anywhere] transition-transform duration-500 md:leading-[0.92] md:group-hover:translate-x-4 md:text-5xl">{p.title}</span>
+              <a href={p.url} target="_blank" rel="noreferrer" onMouseEnter={() => setHover(i)} className="group grid grid-cols-[4.5rem_minmax(0,1fr)] items-start gap-x-4 gap-y-2 border-b border-border py-5 transition-colors duration-500 active:bg-primary/5 md:grid-cols-[6rem_minmax(0,1fr)_14rem_10rem] md:items-center md:gap-6 md:px-4 md:py-8 md:hover:bg-primary md:hover:text-primary-foreground">
+                <img src={p.img} alt="" loading="lazy" className="row-span-2 aspect-square w-full object-cover md:hidden" />
+                <span className="label-mono hidden text-muted-foreground group-hover:text-accent md:block">{String(i + 1).padStart(2, "0")}</span>
+                <span className="display min-w-0 text-[1.375rem] leading-tight [overflow-wrap:anywhere] transition-transform duration-500 md:text-5xl md:leading-[0.92] md:group-hover:translate-x-4">{p.title}</span>
                 <span className="label-mono hidden text-muted-foreground group-hover:text-primary-foreground/70 md:block">{p.tag}</span>
-                <span className="label-mono col-start-2 text-muted-foreground group-hover:text-primary-foreground/70 md:col-start-auto md:text-right">{p.date}</span>
+                <span className="label-mono col-start-2 text-muted-foreground md:col-start-auto md:text-right md:group-hover:text-primary-foreground/70">{p.date} <span className="md:hidden">· {p.tag}</span></span>
               </a>
             </li>
           ))}
@@ -436,16 +423,19 @@ function Novidades() {
 }
 
 function Footer() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
+  const magnetic = useMagnetic(0.12);
   return (
-    <footer className="grain relative overflow-hidden bg-forest-deep text-bone">
+    <footer ref={ref} className="grain relative overflow-hidden bg-forest-deep text-bone">
       <div className="mx-auto max-w-[1600px] px-6 md:px-12">
         <div aria-hidden="true" className="border-t border-forest-line pb-20 md:pb-32" />
         <Reveal>
           <p className="label-mono mb-8 text-accent">Vamos construir</p>
-          <a href="https://wa.me/5516991078596" target="_blank" rel="noreferrer" className="group display mobile-heading block text-[clamp(3rem,8vw,9rem)]">
+          <motion.a {...magnetic} href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="group display mobile-heading block w-fit text-[clamp(3rem,8vw,9rem)]">
             Seu próximo <span className="italic text-accent">projeto</span>
-            <span className="inline-block transition-transform duration-700 group-hover:translate-x-6 group-hover:-translate-y-6"> ↗</span>
-          </a>
+            <span className="inline-block transition-transform duration-700 group-hover:-translate-y-6 group-hover:translate-x-6"> ↗</span>
+          </motion.a>
         </Reveal>
         <div className="mt-12 grid grid-cols-2 gap-8 border-t border-forest-line py-10 [&>*]:min-w-0 md:mt-24 md:grid-cols-4 md:gap-10 md:py-12">
           <div className="col-span-2 md:col-span-1"><Logo /></div>
@@ -453,10 +443,8 @@ function Footer() {
             <p className="label-mono mb-3 text-bone/40">Instagram</p>
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-accent">@zordanengenharia</a>
             <p className="label-mono mb-3 mt-6 text-bone/40">WhatsApp</p>
-            <a href="https://wa.me/5516991078596" target="_blank" rel="noreferrer" className="inline-flex items-center gap-3 text-accent transition-colors hover:text-bone">
-              <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 shrink-0" aria-hidden="true">
-                <path d="M20.52 3.48A11.9 11.9 0 0 0 12.05 0C5.47 0 .12 5.35.12 11.93c0 2.1.55 4.15 1.6 5.96L0 24l6.25-1.64a11.94 11.94 0 0 0 5.8 1.48h.01c6.58 0 11.93-5.35 11.94-11.93a11.86 11.86 0 0 0-3.48-8.43ZM12.06 21.83a9.9 9.9 0 0 1-5.05-1.38l-.36-.21-3.71.97.99-3.62-.24-.37a9.87 9.87 0 0 1-1.52-5.29c0-5.47 4.45-9.92 9.92-9.92a9.85 9.85 0 0 1 7.02 2.91 9.85 9.85 0 0 1 2.9 7.02c0 5.47-4.45 9.92-9.95 9.89Zm5.44-7.42c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.49-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.27.49 1.71.63.72.23 1.38.2 1.9.12.58-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35Z" />
-              </svg>
+            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-3 text-accent transition-colors hover:text-bone">
+              <WhatsAppIcon />
               <span>+55 16 99107-8596 ↗</span>
             </a>
           </div>
@@ -467,14 +455,31 @@ function Footer() {
           <p className="label-mono self-end text-right text-bone/40">© {new Date().getFullYear()} Zordan Engenharia</p>
         </div>
       </div>
-      <p className="display pointer-events-none select-none pb-6 text-center text-[24vw] leading-[1.15] text-bone/[0.06]">ZORDAN</p>
+      <p aria-hidden className="display pointer-events-none flex select-none justify-center overflow-hidden pb-6 text-[24vw] leading-[1.15] text-bone/[0.06]">
+        {"ZORDAN".split("").map((ch, i) => <FooterLetter key={i} ch={ch} i={i} progress={scrollYProgress} />)}
+      </p>
     </footer>
   );
 }
 
+function FooterLetter({ ch, i, progress }: { ch: string; i: number; progress: MotionValue<number> }) {
+  const y = useTransform(progress, [0.35 + i * 0.05, 0.75 + i * 0.04], ["100%", "0%"]);
+  return <motion.span style={{ y }} className="inline-block">{ch}</motion.span>;
+}
+
 function Index() {
+  useEffect(() => {
+    let stop: (() => void) | undefined;
+    let cancelled = false;
+    void startSmoothScroll().then((fn) => (cancelled ? fn() : (stop = fn)));
+    return () => {
+      cancelled = true;
+      stop?.();
+    };
+  }, []);
   return (
     <main className="bg-background">
+      <Intro />
       <Nav />
       <Hero />
       <ParceriaMarquee light />
