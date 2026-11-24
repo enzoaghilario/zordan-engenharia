@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence, motion, useScroll, useTransform, useMotionValue, useSpring, useVelocity, useReducedMotion, type MotionValue } from "motion/react";
 import { useRef, useState, useEffect } from "react";
-import hero from "@/assets/hero-residencia.jpg";
-import detalhe from "@/assets/detalhe-fachada.jpg";
+import hero from "@/assets/hero-residencia.webp";
+import heroSm from "@/assets/hero-residencia-960.webp";
+import detalhe from "@/assets/detalhe-fachada.webp";
 import { MetodoVideo } from "@/components/site/MetodoVideo";
 import { MetodoConstrucao } from "@/components/site/MetodoConstrucao";
 import { Logo } from "@/components/site/Logo";
@@ -23,12 +24,42 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Zordan Engenharia — Construção de alto padrão" },
       { property: "og:description", content: "Engenharia, infraestrutura e residências de alto padrão, do terreno à última pedra." },
       { property: "og:type", content: "website" },
+      { property: "og:locale", content: "pt_BR" },
+      { property: "og:site_name", content: "Zordan Engenharia" },
+      { property: "og:url", content: `${SITE_URL}/` },
+      { property: "og:image", content: `${SITE_URL}/og-image.jpg` },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: "Residência de alto padrão ao entardecer — Zordan Engenharia" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: `${SITE_URL}/og-image.jpg` },
+      { name: "theme-color", content: "#0a1611" },
+    ],
+    links: [{ rel: "canonical", href: `${SITE_URL}/` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "GeneralContractor",
+          "@id": `${SITE_URL}/#empresa`,
+          name: "Zordan Engenharia",
+          url: `${SITE_URL}/`,
+          image: `${SITE_URL}/og-image.jpg`,
+          logo: `${SITE_URL}/apple-touch-icon.png`,
+          description: "Engenharia, infraestrutura, loteamentos e residências de alto padrão.",
+          telephone: "+55 16 99107-8596",
+          areaServed: "SP, Brasil",
+          sameAs: [INSTAGRAM_URL],
+          knowsAbout: ["Residências de alto padrão", "Infraestrutura", "Loteamentos", "Terraplenagem"],
+        }),
+      },
     ],
   }),
   component: Index,
 });
 
+const SITE_URL = "https://zordan-engenharia.vercel.app";
 const ease = [0.16, 1, 0.3, 1] as const;
 
 function Hero() {
@@ -66,6 +97,9 @@ function Hero() {
       >
         <motion.img
           src={hero}
+          srcSet={`${heroSm} 960w, ${hero} 1920w`}
+          sizes="100vw"
+          fetchPriority="high"
           alt="Residência de alto padrão ao entardecer"
           width={1920}
           height={1088}

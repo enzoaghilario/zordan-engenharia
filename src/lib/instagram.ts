@@ -1,15 +1,15 @@
-import p1 from "@/assets/ig/post-1.jpg";
-import p2 from "@/assets/ig/post-2.jpg";
-import p3 from "@/assets/ig/post-3.jpg";
-import p4 from "@/assets/ig/post-4.jpg";
-import p5 from "@/assets/ig/post-5.jpg";
-import p6 from "@/assets/ig/post-6.jpg";
-import p7 from "@/assets/ig/post-7.jpg";
-import p8 from "@/assets/ig/post-8.jpg";
-import p9 from "@/assets/ig/post-9.jpg";
-import p10 from "@/assets/ig/post-10.jpg";
-import p11 from "@/assets/ig/post-11.jpg";
-import p12 from "@/assets/ig/post-12.jpg";
+import p1 from "@/assets/ig/post-1.webp";
+import p2 from "@/assets/ig/post-2.webp";
+import p3 from "@/assets/ig/post-3.webp";
+import p4 from "@/assets/ig/post-4.webp";
+import p5 from "@/assets/ig/post-5.webp";
+import p6 from "@/assets/ig/post-6.webp";
+import p7 from "@/assets/ig/post-7.webp";
+import p8 from "@/assets/ig/post-8.webp";
+import p9 from "@/assets/ig/post-9.webp";
+import p10 from "@/assets/ig/post-10.webp";
+import p11 from "@/assets/ig/post-11.webp";
+import p12 from "@/assets/ig/post-12.webp";
 
 export const INSTAGRAM_URL = "https://www.instagram.com/zordanengenharia/";
 const ig = (path: string) => `https://www.instagram.com/${path}`;
@@ -18,12 +18,12 @@ export type Post = { img: string; title: string; tag: string; date: string; url:
 
 /** Publicações reais do perfil @zordanengenharia */
 export const obras: Post[] = [
-  { img: p1, title: "Terraplenagem e base de vias", tag: "Infraestrutura", date: "19 Ago 2026", url: ig("zordanengenharia/reel/DcPKDbBBYMj/"), video: true , videoSrc: "/video/obras/obra-1.mp4", videoPoster: "/video/obras/obra-1.jpg" },
-  { img: p2, title: "Compactação de loteamento", tag: "Urbanização", date: "05 Ago 2026", url: ig("zordanengenharia/reel/DbqzQOOJu7A/"), video: true , videoSrc: "/video/obras/obra-2.mp4", videoPoster: "/video/obras/obra-2.jpg" },
-  { img: p6, title: "Residência em acabamento", tag: "Residencial", date: "22 Jan 2026", url: ig("zordanengenharia/reel/DT0oe-mDh0K/"), video: true , videoSrc: "/video/obras/obra-3.mp4", videoPoster: "/video/obras/obra-3.jpg" },
-  { img: p11, title: "Fundação e alvenaria estrutural", tag: "Execução", date: "23 Dez 2025", url: ig("zordanengenharia/reel/DSoARpmDloN/"), video: true , videoSrc: "/video/obras/obra-4.mp4", videoPoster: "/video/obras/obra-4.jpg" },
-  { img: p7, title: "Nossa cidade, vista do alto", tag: "Território", date: "14 Jan 2026", url: ig("zordanengenharia/reel/DTghj79DvNI/"), video: true , videoSrc: "/video/obras/obra-5.mp4", videoPoster: "/video/obras/obra-5.jpg" },
-  { img: p8, title: "Onde construímos o futuro", tag: "Território", date: "06 Jan 2026", url: ig("zordanengenharia/reel/DTL59lgjiNJ/"), video: true , videoSrc: "/video/obras/obra-6.mp4", videoPoster: "/video/obras/obra-6.jpg" },
+  { img: p1, title: "Terraplenagem e base de vias", tag: "Infraestrutura", date: "19 Ago 2026", url: ig("zordanengenharia/reel/DcPKDbBBYMj/"), video: true , videoSrc: "/video/obras/obra-1.mp4", videoPoster: "/video/obras/obra-1.webp" },
+  { img: p2, title: "Compactação de loteamento", tag: "Urbanização", date: "05 Ago 2026", url: ig("zordanengenharia/reel/DbqzQOOJu7A/"), video: true , videoSrc: "/video/obras/obra-2.mp4", videoPoster: "/video/obras/obra-2.webp" },
+  { img: p6, title: "Residência em acabamento", tag: "Residencial", date: "22 Jan 2026", url: ig("zordanengenharia/reel/DT0oe-mDh0K/"), video: true , videoSrc: "/video/obras/obra-3.mp4", videoPoster: "/video/obras/obra-3.webp" },
+  { img: p11, title: "Fundação e alvenaria estrutural", tag: "Execução", date: "23 Dez 2025", url: ig("zordanengenharia/reel/DSoARpmDloN/"), video: true , videoSrc: "/video/obras/obra-4.mp4", videoPoster: "/video/obras/obra-4.webp" },
+  { img: p7, title: "Nossa cidade, vista do alto", tag: "Território", date: "14 Jan 2026", url: ig("zordanengenharia/reel/DTghj79DvNI/"), video: true , videoSrc: "/video/obras/obra-5.mp4", videoPoster: "/video/obras/obra-5.webp" },
+  { img: p8, title: "Onde construímos o futuro", tag: "Território", date: "06 Jan 2026", url: ig("zordanengenharia/reel/DTL59lgjiNJ/"), video: true , videoSrc: "/video/obras/obra-6.mp4", videoPoster: "/video/obras/obra-6.webp" },
 ];
 
 export const patrocinio: Post[] = [

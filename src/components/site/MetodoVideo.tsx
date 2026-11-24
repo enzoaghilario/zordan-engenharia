@@ -2,7 +2,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 const VIDEO_DESKTOP = "/video/metodo-1080.mp4";
 const VIDEO_MOBILE = "/video/metodo-720.mp4";
-import videoPoster from "@/assets/video/obras-poster.jpg";
+import videoPoster from "@/assets/video/obras-poster.webp";
 import { Logo } from "@/components/site/Logo";
 import { METODO_SCENES, METODO_LOGO_HOLD_MS, METODO_LOGO_FADE_MS, metodoSceneAt } from "@/lib/metodo-timeline";
 
