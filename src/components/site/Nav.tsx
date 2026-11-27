@@ -63,8 +63,8 @@ export function Nav() {
         className={`fixed inset-x-0 top-0 z-50 text-bone transition-[background-color,padding,border-color] duration-700 ${solid && !open ? "border-b border-forest-line bg-forest-deep/80 py-3 backdrop-blur-xl md:py-4" : "border-b border-transparent py-5 md:py-7"}`}
       >
         <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-3 px-4 sm:px-6 md:px-12">
-          <a href="#topo" aria-label="Zordan Engenharia — início" onClick={() => setOpen(false)} className="min-h-11 min-w-0 content-center">
-            <Logo className="nav-logo" />
+          <a href="#topo" aria-label="ZKF Construtora — início" onClick={() => setOpen(false)} className="min-h-11 min-w-0 content-center">
+            <Logo className="nav-logo w-[6.5rem] md:w-[8.5rem]" />
           </a>
           <nav className="label-mono hidden gap-10 md:flex" aria-label="Seções">
             {LINKS.map(([, l, h]) => (

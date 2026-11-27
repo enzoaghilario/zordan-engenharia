@@ -19,18 +19,18 @@ import { INSTAGRAM_URL, obras, patrocinio, datas, type Post } from "@/lib/instag
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Zordan Engenharia — Construção de alto padrão" },
+      { title: "ZKF Construtora — Construção de alto padrão" },
       { name: "description", content: "Engenharia, infraestrutura e residências de alto padrão. Projetos executados com precisão, do terreno à última pedra." },
-      { property: "og:title", content: "Zordan Engenharia — Construção de alto padrão" },
+      { property: "og:title", content: "ZKF Construtora — Construção de alto padrão" },
       { property: "og:description", content: "Engenharia, infraestrutura e residências de alto padrão, do terreno à última pedra." },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "pt_BR" },
-      { property: "og:site_name", content: "Zordan Engenharia" },
+      { property: "og:site_name", content: "ZKF Construtora" },
       { property: "og:url", content: `${SITE_URL}/` },
       { property: "og:image", content: `${SITE_URL}/og-image.jpg` },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
-      { property: "og:image:alt", content: "Residência de alto padrão ao entardecer — Zordan Engenharia" },
+      { property: "og:image:alt", content: "Residência de alto padrão ao entardecer — ZKF Construtora" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:image", content: `${SITE_URL}/og-image.jpg` },
       { name: "theme-color", content: "#0a1611" },
@@ -43,7 +43,8 @@ export const Route = createFileRoute("/")({
           "@context": "https://schema.org",
           "@type": "GeneralContractor",
           "@id": `${SITE_URL}/#empresa`,
-          name: "Zordan Engenharia",
+          name: "ZKF Construtora",
+          parentOrganization: { "@type": "Organization", name: "Grupo ZKF" },
           url: `${SITE_URL}/`,
           image: `${SITE_URL}/og-image.jpg`,
           logo: `${SITE_URL}/apple-touch-icon.png`,
@@ -395,7 +396,7 @@ function Patrocinio() {
           <p className="label-mono mb-8 text-accent">(05) — Além da obra</p>
           <h2 className="display mobile-heading text-[clamp(2.5rem,5.5vw,5.5rem)]">A mesma garra, <span className="italic text-accent">dentro e fora</span> do canteiro.</h2>
           <p className="mt-10 max-w-md text-lg font-light leading-relaxed text-bone/70">
-            A Zordan Engenharia patrocina o atleta de beach tennis Dani Mola — porque disciplina, técnica e constância constroem resultados em qualquer terreno.
+            A ZKF Construtora patrocina o atleta de beach tennis Dani Mola — porque disciplina, técnica e constância constroem resultados em qualquer terreno.
           </p>
           <a href={patrocinio[0]!.url} target="_blank" rel="noreferrer" className="label-mono mt-12 inline-flex items-center gap-4 border-b border-accent pb-2 text-accent">
             Acompanhe o atleta ↗
@@ -472,7 +473,7 @@ function Footer() {
           </motion.a>
         </Reveal>
         <div className="mt-12 grid grid-cols-2 gap-8 border-t border-forest-line py-10 [&>*]:min-w-0 md:mt-24 md:grid-cols-4 md:gap-10 md:py-12">
-          <div className="col-span-2 md:col-span-1"><Logo /></div>
+          <div className="col-span-2 md:col-span-1"><Logo className="w-36" /></div>
           <div className="col-span-2 md:col-span-1">
             <p className="label-mono mb-3 text-bone/40">Instagram</p>
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-accent">@zordanengenharia</a>
@@ -486,11 +487,11 @@ function Footer() {
             <p className="label-mono mb-3 text-bone/40">Atuação</p>
             <p className="text-bone/80">Residencial · Infraestrutura · Loteamentos</p>
           </div>
-          <p className="label-mono self-end text-right text-bone/40">© {new Date().getFullYear()} Zordan Engenharia</p>
+          <p className="label-mono self-end text-right text-bone/40">© {new Date().getFullYear()} ZKF Construtora</p>
         </div>
       </div>
       <p aria-hidden className="display pointer-events-none flex select-none justify-center overflow-hidden pb-6 text-[24vw] leading-[1.15] text-bone/[0.06]">
-        {"ZORDAN".split("").map((ch, i) => <FooterLetter key={i} ch={ch} i={i} progress={scrollYProgress} />)}
+        {"ZKF".split("").map((ch, i) => <FooterLetter key={i} ch={ch} i={i} progress={scrollYProgress} />)}
       </p>
     </footer>
   );

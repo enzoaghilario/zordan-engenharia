@@ -30,7 +30,7 @@ export const patrocinio: Post[] = [
   { img: p3, title: "Dani Mola em quadra", tag: "Beach Tennis", date: "30 Mai 2026", url: ig("daniel_mola18/p/DY-G72bjrlZ/") },
   { img: p4, title: "Marca que veste campeões", tag: "Beach Tennis", date: "26 Mar 2026", url: ig("daniel_mola18/p/DWXhIo4Dt_Y/") },
   { img: p5, title: "Rotina de atleta", tag: "Beach Tennis", date: "28 Jan 2026", url: ig("daniel_mola18/reel/DUEeQjkD4YH/"), video: true },
-  { img: p12, title: "Parceria Zordan × Dani Mola", tag: "Beach Tennis", date: "14 Dez 2025", url: ig("zordanengenharia/reel/DSQg3AAATrx/"), video: true },
+  { img: p12, title: "Parceria ZKF × Dani Mola", tag: "Beach Tennis", date: "14 Dez 2025", url: ig("zordanengenharia/reel/DSQg3AAATrx/"), video: true },
 ];
 
 export const datas: Post[] = [

@@ -57,7 +57,7 @@ export function MetodoVideo() {
   }, [phase, reducedMotion]);
 
   return (
-    <div className="grain relative flex aspect-[4/3] w-full min-w-0 items-center justify-center overflow-hidden bg-forest-deep text-bone md:aspect-auto md:min-h-[85svh]" role="group" aria-label="A história da Zordan Engenharia">
+    <div className="grain relative flex aspect-[4/3] w-full min-w-0 items-center justify-center overflow-hidden bg-forest-deep text-bone md:aspect-auto md:min-h-[85svh]" role="group" aria-label="A história da ZKF Construtora">
       <video ref={ref} src={src ?? undefined} poster={videoPoster} autoPlay muted playsInline preload="auto" aria-hidden disablePictureInPicture {...{ "webkit-playsinline": "true" }}
         onTimeUpdate={(event) => setSceneIndex(metodoSceneAt(event.currentTarget.currentTime))}
         onEnded={() => setPhase("logo")}

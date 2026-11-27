@@ -94,6 +94,10 @@
   --metodo-text-shadow: 0 2px 18px oklch(0.12 0.025 162 / 65%);
   --forest-line: oklch(0.975 0.006 120 / 14%);
   --bone: oklch(0.975 0.006 120);
+  /* Marca Grupo ZKF — opção 01 · Clássica (#0F2341, #C9A66B, #F5F0E6) */
+  --zkf-navy: oklch(0.257 0.062 258.4);
+  --zkf-gold: oklch(0.743 0.087 79.9);
+  --zkf-ivory: oklch(0.956 0.014 84.6);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -224,10 +228,7 @@
   text-wrap: balance;
 }
 .metodo-phrase-final { font-size: 4.25rem; }
-.metodo-logo { animation: metodo-float 4s ease-in-out infinite; }
-.metodo-logo > svg { width: 6rem; height: 6rem; }
-.metodo-logo > span > span:first-child { font-size: 2.75rem; }
-.metodo-logo > span > span:last-child { font-size: 0.875rem; }
+.metodo-logo { width: 18rem; animation: metodo-float 4s ease-in-out infinite; }
 @keyframes metodo-float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
@@ -235,10 +236,6 @@
 @media (max-width: 767px) {
   section[id] { scroll-margin-top: 6rem; }
   .label-mono { letter-spacing: 0; }
-  .nav-logo { gap: 0.5rem; }
-  .nav-logo > svg { flex-shrink: 0; width: 2rem; height: 2rem; }
-  .nav-logo > span { min-width: 0; }
-  .nav-logo > span > span:first-child { font-size: 1rem; letter-spacing: 0; }
   .mobile-heading { font-size: 2.5rem; line-height: 1.08; letter-spacing: 0; overflow-wrap: anywhere; }
   .patrocinio-image { position: relative; inset: auto; width: 100%; transform: none !important; }
   .patrocinio-image:nth-child(2) { margin-top: 2rem; }
@@ -246,9 +243,7 @@
   .metodo-phrase { font-size: 2rem; }
   .metodo-phrase-final { font-size: 1.375rem; }
   .metodo-phrase-final > span:last-child { font-size: 1.9rem; margin-top: 0.4rem; }
-  .metodo-logo > svg { width: 4rem; height: 4rem; }
-  .metodo-logo > span > span:first-child { font-size: 2rem; }
-  .metodo-logo > span > span:last-child { font-size: 0.65rem; }
+  .metodo-logo { width: 11rem; }
 }
 @media (max-width: 359px) {
   .hero-title { font-size: 2.5rem; }
@@ -280,26 +275,19 @@ html.lenis, html.lenis body { height: auto; }
   color: var(--bone);
   animation: intro-out 0.95s cubic-bezier(0.76, 0, 0.24, 1) 1.25s forwards;
 }
-.intro-mark { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; }
-.intro-hex, .intro-layer {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: intro-draw 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.intro .zkf-letter {
+  transform-box: fill-box;
+  animation: intro-letter 0.9s cubic-bezier(0.16, 1, 0.3, 1) calc(0.1s + var(--i) * 0.09s) both;
 }
-.intro-hex { animation-duration: 1.1s; }
-.intro-layer { stroke: var(--accent); }
-.intro-word {
-  font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 0.8rem;
-  letter-spacing: 0.6em;
-  margin-right: -0.6em;
-  text-transform: uppercase;
-  opacity: 0;
-  animation: intro-word 0.9s ease-out 0.55s forwards;
+.intro .zkf-line {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: intro-line 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
 }
-@keyframes intro-draw { to { stroke-dashoffset: 0; } }
-@keyframes intro-word { from { opacity: 0; letter-spacing: 1.1em; } to { opacity: 0.85; letter-spacing: 0.6em; } }
+.intro .zkf-word { animation: intro-fade 0.8s ease-out 0.6s both; }
+@keyframes intro-letter { from { opacity: 0; transform: translateY(35%); } }
+@keyframes intro-line { from { transform: scaleX(0); } }
+@keyframes intro-fade { from { opacity: 0; } }
 @keyframes intro-out { to { transform: translateY(-100%); visibility: hidden; } }
 
 @media (prefers-reduced-motion: reduce) {

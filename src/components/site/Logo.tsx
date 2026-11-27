@@ -1,22 +1,27 @@
-export function ZordanMark({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 48 48" className={className} fill="none" aria-hidden>
-      <path d="M24 3 44 13v22L24 45 4 35V13Z" stroke="currentColor" strokeWidth="1.2" />
-      {[0, 1, 2, 3, 4, 5].map((i) => (
-        <path key={i} d={`M8 ${17 + i * 3.6} 24 ${25 + i * 3.6} 40 ${17 + i * 3.6}`} stroke="currentColor" strokeWidth="1.6" />
-      ))}
-    </svg>
-  );
-}
+import { ZKF_LETTERS, ZKF_LOCKUPS } from "@/components/site/zkf-paths";
 
-export function Logo({ className = "" }: { className?: string }) {
+type Tone = "dark" | "light";
+
+/**
+ * Logotipo Grupo ZKF — opção 01 · Clássica.
+ * dark: versão negativa (ouro sobre fundo escuro). light: principal (marinho sobre fundo claro).
+ * As três letras sempre com a mesma cor; os fios são sempre dourados.
+ */
+export function Logo({ className = "", tone = "dark" }: { className?: string; tone?: Tone }) {
+  const lockup = ZKF_LOCKUPS.grupo;
+  const letters = tone === "dark" ? "var(--zkf-gold)" : "var(--zkf-navy)";
+  const word = tone === "dark" ? "var(--zkf-ivory)" : "var(--zkf-navy)";
   return (
-    <span className={`flex items-center gap-3 ${className}`}>
-      <ZordanMark className="h-9 w-9" />
-      <span className="leading-none">
-        <span className="block font-sans text-lg font-semibold tracking-[0.18em]">ZORDAN</span>
-        <span className="label-mono block text-[0.55rem] opacity-70">Engenharia</span>
-      </span>
-    </span>
+    <svg viewBox={lockup.viewBox} className={`zkf-logo block h-auto overflow-visible ${className}`} role="img" aria-label="Grupo ZKF">
+      <g className="zkf-letters" fill={letters}>
+        {ZKF_LETTERS.map((d, i) => <path key={i} className="zkf-letter" d={d} style={{ ["--i" as string]: i }} />)}
+      </g>
+      <g className="zkf-lines" fill="var(--zkf-gold)">
+        {lockup.lines.map(([x, y, w, h], i) => <rect key={i} className="zkf-line" x={x} y={y} width={w} height={h} />)}
+      </g>
+      <g className="zkf-word" fill={word}>
+        {lockup.word.map((d, i) => <path key={i} d={d} />)}
+      </g>
+    </svg>
   );
 }
