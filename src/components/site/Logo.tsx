@@ -1,18 +1,19 @@
 import { ZKF_LETTERS, ZKF_LOCKUPS } from "@/components/site/zkf-paths";
 
 type Tone = "dark" | "light";
+type Variant = keyof typeof ZKF_LOCKUPS;
 
 /**
- * Logotipo Grupo ZKF — opção 01 · Clássica.
+ * Logotipo ZKF — opção 01 · Clássica. "construtora" é a marca do site; "grupo" é a do Grupo ZKF (faixas).
  * dark: versão negativa (ouro sobre fundo escuro). light: principal (marinho sobre fundo claro).
  * As três letras sempre com a mesma cor; os fios são sempre dourados.
  */
-export function Logo({ className = "", tone = "dark" }: { className?: string; tone?: Tone }) {
-  const lockup = ZKF_LOCKUPS.grupo;
+export function Logo({ className = "", tone = "dark", variant = "construtora" }: { className?: string; tone?: Tone; variant?: Variant }) {
+  const lockup = ZKF_LOCKUPS[variant];
   const letters = tone === "dark" ? "var(--zkf-gold)" : "var(--zkf-navy)";
   const word = tone === "dark" ? "var(--zkf-ivory)" : "var(--zkf-navy)";
   return (
-    <svg viewBox={lockup.viewBox} className={`zkf-logo block h-auto overflow-visible ${className}`} role="img" aria-label="Grupo ZKF">
+    <svg viewBox={lockup.viewBox} className={`zkf-logo block h-auto overflow-visible ${className}`} role="img" aria-label={variant === "grupo" ? "Grupo ZKF" : "ZKF Construtora"}>
       <g className="zkf-letters" fill={letters}>
         {ZKF_LETTERS.map((d, i) => <path key={i} className="zkf-letter" d={d} style={{ ["--i" as string]: i }} />)}
       </g>

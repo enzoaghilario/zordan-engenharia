@@ -30,12 +30,12 @@ export function ParceriaMarquee({ light = false }: { light?: boolean }) {
   });
 
   return (
-    <div ref={ref} className={`w-full min-w-0 overflow-hidden border-y py-5 md:py-7 ${light ? "border-border bg-background text-primary" : "border-forest-line bg-forest-deep text-bone"}`} aria-label="Grupo ZKF">
+    <div ref={ref} className={`w-full min-w-0 overflow-hidden border-y py-3 md:py-4 ${light ? "border-border bg-background text-primary" : "border-forest-line bg-forest-deep text-bone"}`} aria-label="Grupo ZKF">
       <motion.div style={{ x }} className="parceria-track flex w-max items-center whitespace-nowrap will-change-transform" aria-hidden>
         {Array.from({ length: 8 }).map((_, i) => (
-          <span key={i} className="flex items-center gap-10 pr-10 md:gap-16 md:pr-16">
-            <Logo tone={light ? "light" : "dark"} className="w-24 shrink-0 md:w-32" />
-            <span className="text-[var(--zkf-gold)]">✦</span>
+          <span key={i} className="flex items-center gap-8 pr-8 md:gap-12 md:pr-12">
+            <Logo variant="grupo" tone={light ? "light" : "dark"} className="w-16 shrink-0 md:w-20" />
+            <span className="text-xs text-[var(--zkf-gold)]">✦</span>
           </span>
         ))}
       </motion.div>
