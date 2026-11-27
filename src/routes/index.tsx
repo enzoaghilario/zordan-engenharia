@@ -14,7 +14,7 @@ import { WhatsAppIcon, WHATSAPP_URL } from "@/components/site/Icons";
 import { useMagnetic } from "@/components/site/Magnetic";
 import { Reveal, ScrollWords } from "@/components/site/Reveal";
 import { lockScroll, startSmoothScroll } from "@/lib/smooth-scroll";
-import { INSTAGRAM_URL, obras, patrocinio, type Post } from "@/lib/instagram";
+import { INSTAGRAM_URL, obras, type Post } from "@/lib/instagram";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -379,41 +379,6 @@ function Metodo() {
   );
 }
 
-function Patrocinio() {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y1 = useTransform(scrollYProgress, [0, 1], [110, -110]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [-60, 60]);
-  const y3 = useTransform(scrollYProgress, [0, 1], [140, -140]);
-  const big = useTransform(scrollYProgress, [0, 1], ["10%", "-30%"]);
-  return (
-    <section ref={ref} className="grain relative overflow-hidden bg-forest-deep py-20 text-bone md:py-48">
-      <motion.p style={{ x: big }} className="display pointer-events-none absolute top-1/2 -translate-y-1/2 whitespace-nowrap text-[22vw] italic text-bone/[0.04]">
-        Beach Tennis · Beach Tennis
-      </motion.p>
-      <div className="relative mx-auto grid max-w-[1600px] items-center gap-12 px-6 md:grid-cols-2 md:gap-20 md:px-12">
-        <div>
-          <p className="label-mono mb-8 text-accent">(05) — Além da obra</p>
-          <h2 className="display mobile-heading text-[clamp(2.5rem,5.5vw,5.5rem)]">A mesma garra, <span className="italic text-accent">dentro e fora</span> do canteiro.</h2>
-          <p className="mt-10 max-w-md text-lg font-light leading-relaxed text-bone/70">
-            A ZKF Construtora patrocina o atleta de beach tennis Dani Mola — porque disciplina, técnica e constância constroem resultados em qualquer terreno.
-          </p>
-          <a href={patrocinio[0]!.url} target="_blank" rel="noreferrer" className="label-mono mt-12 inline-flex items-center gap-4 border-b border-accent pb-2 text-accent">
-            Acompanhe o atleta ↗
-          </a>
-        </div>
-        <div className="patrocinio-gallery relative grid grid-cols-2 items-start gap-4 md:block md:h-[620px]">
-          {[[patrocinio[1]!, y1, "left-0 top-10 w-[52%] z-10"], [patrocinio[0]!, y2, "right-0 top-0 w-[56%]"], [patrocinio[3]!, y3, "left-[22%] bottom-0 w-[44%] z-20"]].map(([p, y, cls], i) => (
-            <motion.a key={i} href={(p as Post).url} target="_blank" rel="noreferrer" style={{ y: y as never }} className={`patrocinio-image absolute block shadow-[0_40px_80px_-20px_oklch(0_0_0/0.6)] ${cls as string}`}>
-              <img src={(p as Post).img} alt={(p as Post).title} loading="lazy" className="aspect-[4/5] w-full object-cover" />
-            </motion.a>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function Novidades() {
   const list = obras.slice(0, 3);
   const [hover, setHover] = useState<number | null>(null);
@@ -523,7 +488,6 @@ function Index() {
       <Obras />
       <Metodo />
       <Novidades />
-      <Patrocinio />
       <Footer />
     </main>
   );
