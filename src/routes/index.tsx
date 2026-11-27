@@ -14,7 +14,7 @@ import { WhatsAppIcon, WHATSAPP_URL } from "@/components/site/Icons";
 import { useMagnetic } from "@/components/site/Magnetic";
 import { Reveal, ScrollWords } from "@/components/site/Reveal";
 import { lockScroll, startSmoothScroll } from "@/lib/smooth-scroll";
-import { INSTAGRAM_URL, obras, patrocinio, datas, type Post } from "@/lib/instagram";
+import { INSTAGRAM_URL, obras, patrocinio, type Post } from "@/lib/instagram";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -415,7 +415,7 @@ function Patrocinio() {
 }
 
 function Novidades() {
-  const list = [...obras.slice(0, 3), patrocinio[2]!, ...datas];
+  const list = obras.slice(0, 3);
   const [hover, setHover] = useState<number | null>(null);
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
